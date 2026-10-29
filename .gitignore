@@ -5,5 +5,4 @@
 __pycache__/
 *.pyc
 ~$*
-projets/*/02-a-valider/apercu/
 .claude/settings.local.json

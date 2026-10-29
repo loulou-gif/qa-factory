@@ -20,27 +20,28 @@ Identifiants stables : exigences `EX-001`, cas `CT0001`, questions `Q-001`, jeux
 ## Le workflow et ses deux temps
 
 ```
-TEMPS A — à réception du cahier des charges (l'application n'existe pas encore ou n'est pas stable)
+TEMPS A — à réception du cahier des charges (pas besoin de l'application)
   01-entrant/            Julius dépose le CDC, les US, le DSF, les maquettes
      │  /analyser <projet>
   02-a-valider/          Claude écrit : cas-de-tests.json (+ .md de relecture), ambiguites.md, jeux-de-donnees.md
      │  Julius relit, demande les corrections, puis DÉPLACE les fichiers dans 03-valide (= validation)
   03-valide/
      │  /publier <projet>        → Squash : exigences + cas classiques liés (si le projet Squash existe)
-     │  /livrables <projet>      → cahier de tests Excel + specs d'automatisation BROUILLON
-  04-livrables/
+     │  /specs <projet>          → specs d'automatisation BROUILLON (04-livrables/specs)
 
-TEMPS B — application livrée et accessible
-     │  /explorer <projet>       → découvertes, écarts spec/application, specs complétées (INTERACT/ASSERT/locators)
-     │  /generer-tests <projet>  → Page Objects + tests Playwright dans le dépôt d'automatisation, exécution, inventaire
-     │  /manuel <projet>         → manuel utilisateur Word à partir de l'application réelle et des captures
+TEMPS B — le lien de la plateforme à tester, l'environnement et les comptes de test sont disponibles
+     │  /explorer <projet>       → découvertes, écarts spec/application, specs CONFIRMÉES
+     │  puis, EN PARALLÈLE (/recette <projet> les lance ensemble) :
+     ├─ /generer-tests <projet>  → Page Objects + tests Playwright, exécution, inventaire
+     ├─ /cahier <projet>         → cahier de tests Excel (libellés réels, traçabilité vers les tests)
+     └─ /manuel <projet>         → manuel utilisateur Word (application réelle + captures)
 ```
 
-Pourquoi deux temps : avant que l'application existe, les libellés, enchaînements et messages sont **supposés**. Les specs du temps A sont donc marquées `STATUT : BROUILLON` et le manuel n'est jamais rédigé en temps A.
+Pourquoi deux temps : avant que l'application existe, les libellés, enchaînements et messages sont **supposés**. Les specs du temps A sont donc marquées `STATUT : BROUILLON`. **Le cahier de tests et le manuel ne sont jamais produits en temps A** : ils ne se font qu'avec le lien de la plateforme et les accès de test, après l'exploration, en parallèle de l'écriture des scripts automatisés. `outils/build_cahier.py` refuse de tourner sans URL ni exploration.
 
 ## Règles impératives
 
-1. **Validation humaine.** Ne jamais déplacer un fichier de `02-a-valider` vers `03-valide` : c'est l'acte de validation de Julius. `/publier` et `/livrables` refusent de travailler sur autre chose que `03-valide`.
+1. **Validation humaine.** Ne jamais déplacer un fichier de `02-a-valider` vers `03-valide` : c'est l'acte de validation de Julius. `/publier`, `/specs`, `/cahier` et `/manuel` refusent de travailler sur autre chose que `03-valide`.
 2. **Ne rien inventer.** Une information absente du cahier des charges devient une question dans `ambiguites.md`, jamais une règle dans un cas de test. Pas de libellé, message, statut, rôle, règle de calcul ou locator inventé.
 3. **Squash : simulation d'abord.** Toujours `publish_validated_test_cases` avec `apply=false`, montrer le plan, puis `apply=true` seulement après accord explicite de Julius dans la conversation. Ne jamais supprimer ni modifier ce qui existe dans Squash (les outils destructifs du MCP sont bloqués, ne pas chercher à les débloquer).
 4. **Secrets.** Aucun mot de passe, jeton ou donnée personnelle réelle dans les fichiers du dépôt, les captures ou les rapports. Les identifiants viennent de variables d'environnement ou du `.env` (non versionné).
@@ -73,9 +74,11 @@ Pourquoi deux temps : avant que l'application existe, les libellés, enchaîneme
 | `/analyser <projet>` | Temps A : analyse de `01-entrant/`, écrit les 3 fichiers dans `02-a-valider/` |
 | `/corriger <projet> <demande>` | Applique une correction demandée par Julius aux fichiers de `02-a-valider/` |
 | `/publier <projet>` | Temps A : publication Squash de `03-valide/` (simulation puis publication) |
-| `/livrables <projet>` | Temps A : cahier de tests Excel + specs BROUILLON dans `04-livrables/` |
-| `/explorer <projet> [fonctionnalité]` | Temps B : exploration de l'application, écarts, specs complétées |
+| `/specs <projet>` | Temps A : specs d'automatisation BROUILLON dans `04-livrables/specs/` |
+| `/explorer <projet> [fonctionnalité]` | Temps B : exploration de l'application, écarts, specs CONFIRMÉES |
+| `/recette <projet>` | Temps B : lance en parallèle `/generer-tests`, `/cahier` et `/manuel` après l'exploration |
 | `/generer-tests <projet> [fonctionnalité]` | Temps B : tests Playwright dans le dépôt d'automatisation |
+| `/cahier <projet> [nominaux]` | Temps B : cahier de tests Excel |
 | `/manuel <projet>` | Temps B : manuel utilisateur |
 | `/statut [projet]` | Où en est chaque projet |
 
@@ -85,7 +88,7 @@ Pourquoi deux temps : avant que l'application existe, les libellés, enchaîneme
 python outils/nouveau_projet.py <nom> [--url URL] [--squash-id ID]
 python outils/rendre_revue.py <projet> [--dossier 02-a-valider|03-valide]
 python outils/controle.py <projet> [--dossier 02-a-valider|03-valide]
-python outils/build_cahier.py <projet> [--nominaux]
+python outils/build_cahier.py <projet> [--nominaux]     # temps B uniquement : exige l'URL et l'exploration
 python outils/generer_specs.py <projet>
 python outils/statut.py [projet]
 ```

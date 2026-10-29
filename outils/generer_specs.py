@@ -100,7 +100,7 @@ def generer(d, projet, data, f, questions, jeux, version):
     L += ["DESCRIPTION", ""]
     L += [f"- {e['id']} {e.get('titre', '')} : {e.get('description', '')}" for e in exigences]
     L += ["", "USER STORY",
-          "<!-- À rédiger par /livrables à partir des exigences ci-dessus uniquement : En tant que <rôle documenté>, "
+          "<!-- À rédiger par /specs à partir des exigences ci-dessus uniquement : En tant que <rôle documenté>, "
           "je veux <action>, afin de <valeur métier>. Rôle inconnu = point à confirmer. -->",
           "CRITÈRES D'ACCEPTATION"]
     L += [f"{i}. {e.get('titre', '')} ({e['id']})" for i, e in enumerate(exigences, start=1)]
@@ -169,7 +169,7 @@ def main():
             continue
         cible.write_text(generer(d, projet, data, f, questions, jeux, version), encoding="utf-8")
         ecrits.append(cible.name)
-    journaliser(d, "livrables : specs", f"{len(ecrits)} spec(s) BROUILLON", [f"04-livrables/specs/{n}" for n in ecrits])
+    journaliser(d, "specs", f"{len(ecrits)} spec(s) BROUILLON", [f"04-livrables/specs/{n}" for n in ecrits])
     for n in ecrits:
         print(f"écrit   : 04-livrables/specs/{n}")
     for n in ignores:

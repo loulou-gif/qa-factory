@@ -1,6 +1,6 @@
 ---
 name: specs-automatisation
-description: Produit et maintient les specs d'automatisation Markdown (format FEATURE/SCENARIO/INTERACT/ASSERT/LOCATOR_RULES des projets ANSUT et Orange eFacture) à partir des cas validés, au statut BROUILLON en temps A puis CONFIRMÉE après exploration. À utiliser pour /livrables et /explorer.
+description: Produit et maintient les specs d'automatisation Markdown (format FEATURE/SCENARIO/INTERACT/ASSERT/LOCATOR_RULES des projets ANSUT et Orange eFacture) à partir des cas validés, au statut BROUILLON en temps A puis CONFIRMÉE après exploration. À utiliser pour /specs et /explorer.
 ---
 
 # Specs d'automatisation
@@ -9,7 +9,7 @@ Une spec par fonctionnalité, dans `projets/<projet>/04-livrables/specs/<fonctio
 
 Formats de référence : `templates/specs/exemple-spec-ansut-section.md` (syntaxe DATA / SCENARIO / INTERACT / ASSERT / LOCATOR_RULES d'ANSUT) et `templates/specs/exemple-spec-olib-login.md` (en-tête, user story, critères d'acceptation et contraintes métier d'Orange eFacture). Ce sont des exemples de **forme** : leur contenu métier appartient à d'autres projets.
 
-## Temps A — génération du brouillon (/livrables)
+## Temps A — génération du brouillon (/specs)
 
 1. `python outils/generer_specs.py <projet>` : écrit un squelette par fonctionnalité depuis `03-valide` (en-tête, sources, description, critères d'acceptation, DATA depuis les jeux de données, un SCENARIO par cas avec GIVEN / STEP / WHEN / THEN, OBSERVABILITY, LOCATOR_RULES, points à confirmer). Les specs `CONFIRMÉE` ne sont pas écrasées.
 2. Compléter à la main, **uniquement à partir des fichiers validés** :

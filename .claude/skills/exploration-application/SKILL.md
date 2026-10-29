@@ -43,3 +43,4 @@ Nature : `libellé`, `enchaînement`, `message`, `règle`, `donnée`, `anomalie 
 
 - Proposer à Julius les corrections du JSON validé qui découlent des écarts **qu'il accepte** (libellés notamment). Elles passent par `02-a-valider` → validation → `03-valide`, comme une analyse. Squash n'est pas mis à jour automatiquement pour un cas déjà publié : lister les cas à corriger dans Squash.
 - Journal : `| date | explorer <fonctionnalité> | N scénarios confirmés, N écarts | fichiers |`.
+- Suite : une fois les écarts arbitrés, `/recette` produit en parallèle les scripts automatisés, le cahier de tests et le manuel.

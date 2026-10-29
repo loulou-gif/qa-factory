@@ -30,9 +30,9 @@ def etat(d):
         ("Validation (03-valide)", "validée" if a("03-valide/cas-de-tests.json") else "en attente de Julius"),
         ("Questions ouvertes", str(ouvertes)),
         ("Publication Squash", publie or "non faite : /publier"),
-        ("Cahier de tests", ", ".join(c.name for c in cahier) or "non fait : /livrables"),
-        ("Specs d'automatisation", f"{len(specs)} ({confirmees} confirmée(s))" if specs else "non faites : /livrables"),
-        ("Manuel utilisateur", ", ".join(m.name for m in manuel) or "temps B : /manuel"),
+        ("Specs d'automatisation", f"{len(specs)} ({confirmees} confirmée(s))" if specs else "non faites : /specs"),
+        ("Cahier de tests", ", ".join(c.name for c in cahier) or "temps B : /cahier ou /recette"),
+        ("Manuel utilisateur", ", ".join(m.name for m in manuel) or "temps B : /manuel ou /recette"),
     ]
     return lignes
 

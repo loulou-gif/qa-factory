@@ -1,6 +1,6 @@
 ---
 name: generation-tests-playwright
-description: Temps B — génère les Page Objects et tests Playwright JavaScript à partir des specs CONFIRMÉES, dans le dépôt d'automatisation du projet, les exécute et tient l'inventaire de couverture. À utiliser pour /generer-tests et pour initialiser un dépôt d'automatisation.
+description: Temps B — génère les Page Objects et tests Playwright JavaScript à partir des specs CONFIRMÉES, dans le dépôt d'automatisation du projet, les exécute et tient l'inventaire de couverture. À utiliser pour /generer-tests, /recette et pour initialiser un dépôt d'automatisation.
 ---
 
 # Génération des tests Playwright (temps B)

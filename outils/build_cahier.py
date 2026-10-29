@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 """Génère le cahier de tests Excel d'un projet à partir de 03-valide/cas-de-tests.json.
 
-Usage : python outils/build_cahier.py <projet> [--nominaux] [--dossier 03-valide]
+Usage : python outils/build_cahier.py <projet> [--nominaux]
+
+TEMPS B UNIQUEMENT : le script refuse de tourner tant que l'URL de la plateforme
+(projet.json → application.url) n'est pas renseignée et que l'exploration n'a pas
+été faite (04-livrables/exploration/decouvertes.md). Le cahier se produit en
+parallèle de l'écriture des scripts automatisés.
 
 Repris du générateur du projet Orange eFacture (OLIB) : le modèle
 templates/cahier/modele_cahier.xlsx est copié tel quel (styles, en-tête, légende
@@ -72,12 +77,15 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("projet")
     p.add_argument("--nominaux", action="store_true", help="ne garder que les parcours nominaux")
-    p.add_argument("--dossier", default="03-valide", choices=["03-valide", "02-a-valider"],
-                   help="02-a-valider : aperçu uniquement, écrit dans 02-a-valider/apercu")
     a = p.parse_args()
 
     d, projet = charger_projet(a.projet)
-    data = charger_cas(d / a.dossier / "cas-de-tests.json")
+    if not (projet.get("application", {}).get("url") or "").strip():
+        erreur("temps B uniquement : renseigner projet.json → application.url (lien de la plateforme à tester)")
+    if not (d / "04-livrables" / "exploration" / "decouvertes.md").exists():
+        erreur("temps B uniquement : l'application n'a pas encore été explorée "
+               "(04-livrables/exploration/decouvertes.md absent). Lancer /explorer d'abord.")
+    data = charger_cas(d / "03-valide" / "cas-de-tests.json")
     if not TEMPLATE.exists():
         erreur(f"modèle introuvable : {TEMPLATE}")
     conf = projet.get("cahier", {})
@@ -239,17 +247,13 @@ def main():
     ts.freeze_panes = "A2"
     ts.auto_filter.ref = f"A1:G{len(trace) + 1}"
 
-    if a.dossier == "02-a-valider":
-        out_dir = d / "02-a-valider" / "apercu"
-    else:
-        out_dir = d / "04-livrables" / "cahier"
+    out_dir = d / "04-livrables" / "cahier"
     out_dir.mkdir(parents=True, exist_ok=True)
     suffixe = "_nominaux" if nominaux else ""
     nom_fichier = f"Cahier_de_tests_{slug(nom).replace('-', '_')}_{conf.get('version', 'V1.0')}{suffixe}.xlsx"
     out = out_dir / nom_fichier
     wb.save(out)
-    if a.dossier == "03-valide":
-        journaliser(d, "livrables : cahier", f"{number} cas", [str(out.relative_to(d))])
+    journaliser(d, "cahier", f"{number} cas", [str(out.relative_to(d))])
     print(f"{out} : {number} cas de tests, lignes {FIRST_ROW}-{last}")
 
 

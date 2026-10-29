@@ -1,11 +1,11 @@
 ---
 name: manuel-utilisateur
-description: Temps B — rédige le manuel utilisateur Word d'un projet à partir de l'application réellement observée, des cas validés et des captures, selon les règles de docs/regles-livrables.md et le modèle templates/manuel. À utiliser pour /manuel.
+description: Temps B — rédige le manuel utilisateur Word d'un projet à partir de l'application réellement observée, des cas validés et des captures, selon les règles de docs/regles-livrables.md et le modèle templates/manuel. À utiliser pour /manuel et /recette.
 ---
 
 # Manuel utilisateur (temps B uniquement)
 
-Le manuel décrit ce que l'utilisateur voit réellement : il n'est **jamais** rédigé en temps A, à partir du seul cahier des charges.
+Le manuel décrit ce que l'utilisateur voit réellement : il n'est **jamais** rédigé en temps A, à partir du seul cahier des charges. Il se produit une fois le lien de la plateforme et les accès disponibles, après l'exploration, en parallèle des scripts automatisés et du cahier de tests (`/recette`).
 
 Règles complètes : `docs/regles-livrables.md` (ta skill de documentation : workflow phases A à F, registre de preuves, captures, structure, mise en page, critères bloquants). Elles s'appliquent intégralement.
 

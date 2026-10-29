@@ -2,7 +2,7 @@
 
 Chaîne de production des livrables de test, pilotée par Claude Code et des serveurs MCP :
 
-**cahier des charges → cas de tests + questions + jeux de données → validation → Squash TM + cahier de tests + specs d'automatisation → (application livrée) → tests Playwright + manuel utilisateur.**
+**cahier des charges → cas de tests + questions + jeux de données → validation → Squash TM + specs d'automatisation → (lien de la plateforme disponible) → exploration → en parallèle : tests Playwright, cahier de tests, manuel utilisateur.**
 
 Tout passe par un seul fichier validé, `cas-de-tests.json` : Squash, le cahier Excel et les specs en sont générés avec les mêmes identifiants (`EX-001`, `CT0001`). Rien n'est réécrit à la main à côté.
 
@@ -27,13 +27,13 @@ Prérequis sur le PC : Claude Code, Node.js 20+, Python 3 avec `openpyxl` (`pip 
 | 4. Relire, corriger | Julius + Claude | `/corriger saucedemo <demande>` | nouvelle version dans `02-a-valider/` |
 | 5. **Valider** | **Julius** | **déplacer les 4 fichiers dans `03-valide/`** | validation |
 | 6. Publier dans Squash | Claude, accord de Julius | `/publier saucedemo` | exigences + cas liés dans Squash |
-| 7. Livrables | Claude | `/livrables saucedemo` | cahier Excel + specs BROUILLON dans `04-livrables/` |
-| 8. Explorer l'application | Claude | `/explorer saucedemo` | découvertes, écarts, specs CONFIRMÉES |
-| 9. Tests automatisés | Claude | `/generer-tests saucedemo` | Page Objects + tests Playwright exécutés |
-| 10. Manuel | Claude | `/manuel saucedemo` | manuel Word + PDF |
+| 7. Specs d'automatisation | Claude | `/specs saucedemo` | specs BROUILLON dans `04-livrables/specs/` |
+| 8. Explorer la plateforme | Claude | `/explorer saucedemo` | découvertes, écarts, specs CONFIRMÉES |
+| 9. Recette, en parallèle | Claude | `/recette saucedemo` | tests Playwright exécutés + cahier Excel + manuel Word, produits ensemble |
+| (ou séparément) | Claude | `/generer-tests`, `/cahier`, `/manuel` | un seul de ces livrables |
 | Suivi | — | `/statut` | avancement de chaque projet |
 
-Les étapes 1 à 7 forment le **temps A** (réception du cahier des charges) ; 8 à 10 le **temps B** (application livrée). Les détails : `CLAUDE.md`.
+Les étapes 1 à 7 forment le **temps A** (réception du cahier des charges, sans besoin de l'application). Les étapes 8 et 9 forment le **temps B** : elles ne démarrent qu'avec le lien de la plateforme, l'environnement et les comptes de test. **Le cahier de tests et le manuel ne sont produits qu'en temps B**, en parallèle de l'écriture des scripts automatisés. Les détails : `CLAUDE.md`.
 
 Les 4 fichiers à déplacer à l'étape 5 : `cas-de-tests.json`, `cas-de-tests.md`, `ambiguites.md`, `jeux-de-donnees.md`.
 
@@ -46,7 +46,8 @@ qa-factory/
 ├── .mcp.json.example         serveurs MCP : squash-tm, playwright
 ├── .claude/
 │   ├── settings.json         permissions : lecture Squash autorisée, écriture sur demande, suppression interdite
-│   ├── commands/             /nouveau-projet, /analyser, /corriger, /publier, /livrables, /explorer, /generer-tests, /manuel, /statut
+│   ├── commands/             /nouveau-projet, /analyser, /corriger, /publier, /specs, /explorer, /recette,
+│   │                         /generer-tests, /cahier, /manuel, /statut
 │   └── skills/               analyse-cdc, publication-squash, cahier-de-tests, specs-automatisation,
 │                             exploration-application, generation-tests-playwright, manuel-utilisateur
 ├── docs/
@@ -72,7 +73,7 @@ Utilisables sans Claude :
 python outils/nouveau_projet.py <nom> --url <URL> --squash-id <ID> --libelle "<Nom>"
 python outils/rendre_revue.py <projet>                  # vue de relecture depuis le JSON
 python outils/controle.py <projet> [--dossier 03-valide] # contrôle + matrice de traçabilité
-python outils/build_cahier.py <projet> [--nominaux]      # cahier de tests Excel (depuis 03-valide)
+python outils/build_cahier.py <projet> [--nominaux]      # cahier Excel, temps B (exige l'URL et l'exploration)
 python outils/generer_specs.py <projet>                  # specs BROUILLON (depuis 03-valide)
 python outils/statut.py [projet]
 ```
@@ -83,7 +84,7 @@ python outils/statut.py [projet]
 - Squash : simulation d'abord, publication réelle après accord ; aucune suppression possible (bloquée dans le MCP et dans `.claude/settings.json`).
 - Aucune donnée inventée : un manque du cahier des charges devient une question (`ambiguites.md`).
 - Aucun secret dans les fichiers : identifiants par variables d'environnement.
-- Le manuel n'est jamais écrit avant que l'application soit explorée.
+- Le cahier de tests et le manuel ne sont jamais produits avant que la plateforme soit accessible et explorée.
 
 ## Limites connues
 
