@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python outils/*)",
+      "Bash(python3 outils/*)",
+      "Bash(pandoc *)",
+      "mcp__squash-tm__get_all_projects",
+      "mcp__squash-tm__get_project",
+      "mcp__squash-tm__get_project_by_name",
+      "mcp__squash-tm__get_requirement",
+      "mcp__squash-tm__list_project_requirements",
+      "mcp__squash-tm__get_test_case",
+      "mcp__squash-tm__validate_publication_file"
+    ],
+    "ask": [
+      "mcp__squash-tm__publish_validated_test_cases",
+      "mcp__squash-tm__create_requirement",
+      "mcp__squash-tm__create_standard_test_case",
+      "mcp__squash-tm__create_requirement_folder",
+      "mcp__squash-tm__create_test_case_folder",
+      "mcp__squash-tm__mark_test_case_automated"
+    ],
+    "deny": [
+      "mcp__squash-tm__delete_test_case",
+      "mcp__squash-tm__delete_test_steps",
+      "mcp__squash-tm__unlink_requirements_from_test_case",
+      "mcp__squash-tm__sync_feature_to_squash",
+      "mcp__squash-tm__create_project",
+      "mcp__squash-tm__create_project_from_template",
+      "Read(./.env)",
+      "Read(./**/.env)"
+    ]
+  }
+}

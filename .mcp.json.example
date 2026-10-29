@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "squash-tm": {
+      "command": "node",
+      "args": ["C:\\Users\\HP\\Desktop\\SYNELIA\\test\\squash-tm-mcp-fork\\squash-tm-mcp\\dist\\index.js"],
+      "env": {
+        "SQUASH_TM_BASE_URL": "https://squash.smile.ci/squash/api/rest/latest",
+        "SQUASH_TM_API_TOKEN": "<jeton d'API Squash>"
+      }
+    },
+    "playwright": {
+      "command": "cmd",
+      "args": ["/c", "npx", "@playwright/mcp@latest"]
+    }
+  }
+}
