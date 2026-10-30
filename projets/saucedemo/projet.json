@@ -2,6 +2,7 @@
   "nom": "SauceDemo",
   "code": "saucedemo",
   "client": "À renseigner",
+  "responsable": "À renseigner",
   "langue": "fr",
   "application": {
     "type": "web",

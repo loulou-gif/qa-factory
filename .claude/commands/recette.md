@@ -7,7 +7,7 @@ Produis les livrables du temps B du projet « $ARGUMENTS », en parallèle.
 1. Vérifie les préconditions communes :
    - `projet.json` → `application.url`, environnement et `automatisation.depot` renseignés (si le dépôt n'existe pas encore, demande l'emplacement avant de lancer quoi que ce soit) ;
    - exploration faite (`04-livrables/exploration/decouvertes.md`) et specs CONFIRMÉES ou PARTIELLES ;
-   - écarts d'exploration (`ecarts.md`) arbitrés par Julius. S'il reste des écarts sans décision, liste-les et demande s'il faut attendre.
+   - écarts d'exploration (`ecarts.md`) arbitrés par le responsable du projet. S'il reste des écarts sans décision, liste-les et demande s'il faut attendre.
 2. Lance **trois sous-agents en parallèle** (outil Agent, un message avec trois appels), chacun avec une consigne complète et autonome :
    - **Automatisation** : suivre `.claude/skills/generation-tests-playwright/SKILL.md` pour toutes les specs confirmées ; rapporter les fichiers créés, les résultats d'exécution réels et l'inventaire mis à jour ;
    - **Cahier de tests** : suivre `.claude/skills/cahier-de-tests/SKILL.md` ; rapporter le fichier produit, le nombre de cas et les points à confirmer ;

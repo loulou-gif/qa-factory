@@ -13,7 +13,7 @@ Outil : serveur MCP `squash-tm` (fork `squash-tm-mcp`, vérifié sur Squash TM 9
 2. `python outils/controle.py <projet> --dossier 03-valide` : 0 erreur.
 3. `projet.json` → `squash.projet_id` est renseigné et égal à `projet.id` du JSON. Sinon, le signaler : le projet Squash doit être créé à la main (création par API réservée aux licences Premium) puis son ID reporté dans `projet.json`.
 4. `get_project` avec cet ID répond : le projet existe et le compte y a accès.
-5. Questions **bloquantes ouvertes** dans `03-valide/ambiguites.md` : les lister et demander à Julius s'il publie quand même (les cas concernés seront publiés tels quels).
+5. Questions **bloquantes ouvertes** dans `03-valide/ambiguites.md` : les lister et demander au responsable du projet s'il publie quand même (les cas concernés seront publiés tels quels).
 
 ## Déroulé
 
@@ -22,7 +22,7 @@ Outil : serveur MCP `squash-tm` (fork `squash-tm-mcp`, vérifié sur Squash TM 9
    - `filePath` : chemin absolu de `03-valide/cas-de-tests.json` ;
    - `mappingFilePath` : chemin absolu de `04-livrables/squash/correspondance.json` ;
    - `apply` : `false`.
-3. Présenter le plan à Julius : nombre de dossiers, exigences et cas à créer, éléments déjà présents, éléments à recréer. Estimer la durée : environ 15 secondes par création sur l'instance Squash actuelle.
+3. Présenter le plan au responsable du projet : nombre de dossiers, exigences et cas à créer, éléments déjà présents, éléments à recréer. Estimer la durée : environ 15 secondes par création sur l'instance Squash actuelle.
 4. Attendre son accord **explicite** dans la conversation. Sans accord, s'arrêter là.
 5. **Publication** : même appel avec `apply: true`.
 6. Si l'appel s'arrête sur une erreur : tout ce qui a été créé est déjà dans le fichier de correspondance. Lire l'erreur Squash, corriger la cause (souvent un champ personnalisé obligatoire ou un code de nature/catégorie absent de l'instance), puis relancer : la publication reprend sans doublon.
@@ -39,10 +39,10 @@ Outil : serveur MCP `squash-tm` (fork `squash-tm-mcp`, vérifié sur Squash TM 9
 ## Interdits
 
 - Publier depuis `02-a-valider`.
-- Passer `apply: true` sans accord explicite de Julius dans la conversation en cours.
+- Passer `apply: true` sans accord explicite du responsable du projet dans la conversation en cours.
 - Modifier ou supprimer quoi que ce soit dans Squash (les outils destructifs sont bloqués par le MCP : ne pas demander leur déblocage).
 - Supprimer ou éditer à la main `correspondance.json` : c'est lui qui empêche les doublons.
 
 ## Mise à jour après une nouvelle validation
 
-Si Julius valide une nouvelle version du JSON (nouveaux cas) : relancer simplement la publication. Seuls les identifiants absents de la correspondance sont créés. Un cas **modifié** déjà publié n'est **pas** mis à jour dans Squash (limite volontaire du MCP) : le signaler et lister les cas concernés pour une mise à jour manuelle dans Squash.
+Si le responsable du projet valide une nouvelle version du JSON (nouveaux cas) : relancer simplement la publication. Seuls les identifiants absents de la correspondance sont créés. Un cas **modifié** déjà publié n'est **pas** mis à jour dans Squash (limite volontaire du MCP) : le signaler et lister les cas concernés pour une mise à jour manuelle dans Squash.

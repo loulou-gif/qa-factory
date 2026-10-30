@@ -27,7 +27,7 @@ def etat(d):
     lignes = [
         ("Documents d'entrée", f"{len(entrants)} fichier(s)" if entrants else "à déposer dans 01-entrant/"),
         ("Analyse (02-a-valider)", "faite" if a("02-a-valider/cas-de-tests.json") else "à lancer : /analyser"),
-        ("Validation (03-valide)", "validée" if a("03-valide/cas-de-tests.json") else "en attente de Julius"),
+        ("Validation (03-valide)", "validée" if a("03-valide/cas-de-tests.json") else "en attente du responsable du projet"),
         ("Questions ouvertes", str(ouvertes)),
         ("Publication Squash", publie or "non faite : /publier"),
         ("Specs d'automatisation", f"{len(specs)} ({confirmees} confirmée(s))" if specs else "non faites : /specs"),

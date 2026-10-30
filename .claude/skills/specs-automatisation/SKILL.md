@@ -5,7 +5,7 @@ description: Produit et maintient les specs d'automatisation Markdown (format FE
 
 # Specs d'automatisation
 
-Une spec par fonctionnalité, dans `projets/<projet>/04-livrables/specs/<fonctionnalite>.md`. Elle doit suffire à Claude Code pour générer un test Playwright de qualité **en allant sur l'application**, en suivant le modèle `templates/automatisation/agents/AGENTS.md`.
+Une spec par fonctionnalité, dans `projets/<projet>/04-livrables/specs/<fonctionnalite>.md`. Elle doit suffire à l'agent (Claude Code ou OpenCode) pour générer un test Playwright de qualité **en allant sur l'application**, en suivant le modèle `templates/automatisation/agents/AGENTS.md`.
 
 Formats de référence : `templates/specs/exemple-spec-ansut-section.md` (syntaxe DATA / SCENARIO / INTERACT / ASSERT / LOCATOR_RULES d'ANSUT) et `templates/specs/exemple-spec-olib-login.md` (en-tête, user story, critères d'acceptation et contraintes métier d'Orange eFacture). Ce sont des exemples de **forme** : leur contenu métier appartient à d'autres projets.
 
@@ -40,7 +40,7 @@ Pour chaque scénario, après observation réelle via le MCP Playwright (skill `
      visible=true
    ```
 3. Ajouter sous le scénario les **locators validés** (tableau « Élément | Locator | Type | Vérifié ») et les écarts observés (`<!-- écart : CDC « Enregistrer », réel « Valider » -->`).
-4. Si l'application contredit la spec : ne pas « corriger » le cas validé en silence. Consigner l'écart dans `04-livrables/exploration/ecarts.md` (voir skill `exploration-application`) ; la décision revient à Julius.
+4. Si l'application contredit la spec : ne pas « corriger » le cas validé en silence. Consigner l'écart dans `04-livrables/exploration/ecarts.md` (voir skill `exploration-application`) ; la décision revient au responsable du projet.
 5. Passer `STATUT` à `CONFIRMÉE — exploré le <date> sur <environnement>` quand **tous** les scénarios ont leurs INTERACT et ASSERT, ou `PARTIELLE` en listant les scénarios restants.
 
 ## Règles

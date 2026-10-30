@@ -1,5 +1,3 @@
-# Configuration MCP réelle (contient le jeton Squash) : seule .mcp.json.example est versionnée
-.mcp.json
 .env
 **/.env
 __pycache__/

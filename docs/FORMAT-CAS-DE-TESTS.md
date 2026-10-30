@@ -4,10 +4,10 @@ L'analyse d'un cahier des charges produit trois fichiers, plus une vue de relect
 
 | Fichier | Rôle | Qui l'écrit |
 |---|---|---|
-| `cas-de-tests.json` | **Source unique** : exigences et cas de tests | Claude (`/analyser`, `/corriger`) |
+| `cas-de-tests.json` | **Source unique** : exigences et cas de tests | L'agent (`/analyser`, `/corriger`) |
 | `cas-de-tests.md` | Vue de relecture lisible du JSON | Généré par `outils/rendre_revue.py`, ne pas modifier |
-| `ambiguites.md` | Ambiguïtés, contradictions, manques, questions | Claude, puis réponses de Julius ou du client |
-| `jeux-de-donnees.md` | Jeux de données nécessaires aux cas | Claude |
+| `ambiguites.md` | Ambiguïtés, contradictions, manques, questions | L'agent, puis réponses du responsable du projet ou du client |
+| `jeux-de-donnees.md` | Jeux de données nécessaires aux cas | L'agent |
 
 Le JSON est un sur-ensemble du format attendu par le MCP Squash (`publish_validated_test_cases`, voir `docs/FORMAT.md` du dépôt `squash-tm-mcp`). Les champs supplémentaires (`type`, `technique`, `questions`, `meta`…) sont ignorés par Squash et servent au cahier, aux specs et au contrôle.
 
@@ -91,7 +91,7 @@ Une section par question, dans cet ordre de champs :
 ```
 
 - **bloquante** : un ou plusieurs cas ne peuvent pas être finalisés sans la réponse ;
-- `Statut` : `ouverte`, `répondue`, `close` ; la `Réponse` est remplie par Julius ou le client, jamais inventée.
+- `Statut` : `ouverte`, `répondue`, `close` ; la `Réponse` est remplie par le responsable du projet ou le client, jamais inventée.
 
 ## 3. `jeux-de-donnees.md`
 

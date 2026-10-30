@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "squash-tm": {
+      "command": "node",
+      "args": ["${SQUASH_MCP_INDEX}"],
+      "env": {
+        "SQUASH_TM_BASE_URL": "${SQUASH_TM_BASE_URL}",
+        "SQUASH_TM_API_TOKEN": "${SQUASH_TM_API_TOKEN}"
+      }
+    },
+    "playwright": {
+      "command": "cmd",
+      "args": ["/c", "npx", "@playwright/mcp@latest"]
+    }
+  }
+}

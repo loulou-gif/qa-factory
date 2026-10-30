@@ -9,7 +9,7 @@ Le code ne vit pas dans `qa-factory` mais dans le dépôt d'automatisation du pr
 
 ## Initialiser le dépôt (première fois)
 
-Si `automatisation.depot` est vide ou n'existe pas, demander à Julius où le créer (habituellement `C:\Users\HP\Desktop\SYNELIA\<PROJET>_AUTOMATION`), puis copier `templates/automatisation/` :
+Si `automatisation.depot` est vide ou n'existe pas, demander au responsable du projet où le créer (habituellement `C:\Users\HP\Desktop\SYNELIA\<PROJET>_AUTOMATION`), puis copier `templates/automatisation/` :
 
 - `agents/AGENTS.md` : remplacer les marqueurs `{{APPLICATION}}`, `{{URL}}`, `{{ESPACES}}` par les valeurs de `projet.json` ; ne rien ajouter d'inventé ;
 - `agents/project-overview.md` : à remplir depuis le CDC (faits) et `ambiguites.md` (points à confirmer) ;
@@ -27,8 +27,8 @@ Respecter `agents/AGENTS.md` du dépôt. En résumé :
 3. Un test par scénario, titre `[CT0001] <titre du scénario> @<fonctionnalite>`, un `test.step` par STEP (texte = WHEN/THEN de la spec), données dans `data/<fonctionnalite>.json`, suffixe unique pour les créations.
 4. Exécuter : `npx playwright test --grep @<fonctionnalite>`. En cas d'échec : distinguer défaut du test (corriger, 3 tentatives max) et défaut applicatif (ne pas contourner, le classer FAIL avec la preuve).
 5. Mettre à jour `docs/test-inventory.md` du dépôt (modèle : `templates/exemples/exemple-inventaire-olib.md`) : ID, scénario de spec, test, statut PASS / FAIL / BLOCKED / NEEDS_DISCOVERY / NOT_RUN, preuve, commentaire.
-6. Reporter dans le JSON validé le lien vers le test (`"automatisation": {"test": "<spec>::<titre>"}`) **en passant par `02-a-valider`** si Julius le souhaite pour le cahier ; sinon, la traçabilité reste dans l'inventaire.
-7. Optionnel, si Julius le demande : `mark_test_case_automated` dans Squash pour les cas PASS (outil MCP).
+6. Reporter dans le JSON validé le lien vers le test (`"automatisation": {"test": "<spec>::<titre>"}`) **en passant par `02-a-valider`** si le responsable du projet le souhaite pour le cahier ; sinon, la traçabilité reste dans l'inventaire.
+7. Optionnel, si le responsable du projet le demande : `mark_test_case_automated` dans Squash pour les cas PASS (outil MCP).
 
 ## Interdits
 

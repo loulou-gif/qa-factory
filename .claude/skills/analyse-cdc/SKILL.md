@@ -73,7 +73,7 @@ Un `JDD-xxx` par ensemble cohérent de données (compte standard, compte verroui
 4. `python outils/controle.py <projet>` → corrige jusqu'à **0 erreur**. Relis chaque avertissement : corrige-le ou garde-le volontairement.
 5. Ajoute une ligne au journal (le contrôle ne le fait pas) : `| date | analyser | N exigences, N cas, N questions (N bloquantes) | fichiers |`.
 
-### Étape 6 — Compte rendu à Julius
+### Étape 6 — Compte rendu au responsable du projet
 
 Court, dans cet ordre :
 - chiffres : exigences, cas par type, questions par gravité, jeux de données ;
@@ -88,7 +88,7 @@ Ne déplace jamais les fichiers dans `03-valide` toi-même.
 - Modifie le JSON (et si besoin `ambiguites.md` / `jeux-de-donnees.md`), incrémente `meta.version`, régénère la vue, relance le contrôle.
 - Ne renumérote jamais les cas existants : un nouveau cas prend le prochain numéro libre, un cas supprimé laisse un trou.
 - Si une question reçoit une réponse : remplis `Réponse`, passe `Statut` à `répondue`, mets à jour les cas liés, retire la question de leurs `questions` seulement si la réponse lève entièrement le doute.
-- Si les fichiers sont déjà dans `03-valide`, refuse de les modifier là : propose de les remettre dans `02-a-valider` (c'est Julius qui déplace) car ils ont peut-être déjà été publiés dans Squash.
+- Si les fichiers sont déjà dans `03-valide`, refuse de les modifier là : propose de les remettre dans `02-a-valider` (c'est le responsable du projet qui déplace) car ils ont peut-être déjà été publiés dans Squash.
 
 ## Exemple
 

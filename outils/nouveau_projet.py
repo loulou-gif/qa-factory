@@ -17,6 +17,7 @@ def main():
     p.add_argument("--squash-id", type=int, default=None, help="ID du projet dans Squash TM")
     p.add_argument("--squash-nom", default="", help="nom du projet dans Squash TM")
     p.add_argument("--libelle", default="", help="nom lisible (ex. « SauceDemo »)")
+    p.add_argument("--responsable", default="", help="testeur responsable du projet (celui qui valide)")
     a = p.parse_args()
 
     if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", a.nom):
@@ -37,6 +38,7 @@ def main():
         "nom": libelle,
         "code": a.nom,
         "client": "À renseigner",
+        "responsable": a.responsable or "À renseigner",
         "langue": "fr",
         "application": {
             "type": "web",
@@ -68,9 +70,9 @@ def main():
     (d / "projet.json").write_text(json.dumps(projet, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (d / "01-entrant" / "LISEZMOI.md").write_text(
         "# Documents d'entrée\n\nDéposer ici le cahier des charges, les User Stories, le DSF, les maquettes "
-        "(PDF, DOCX, MD, images).\nPuis lancer `/analyser " + a.nom + "` dans Claude Code.\n", encoding="utf-8")
+        "(PDF, DOCX, MD, images).\nPuis lancer `/analyser " + a.nom + "` dans Claude Code ou OpenCode.\n", encoding="utf-8")
     (d / "02-a-valider" / "LISEZMOI.md").write_text(
-        "# À valider\n\nClaude écrit ici le résultat de l'analyse. Relire `cas-de-tests.md`, `ambiguites.md` et "
+        "# À valider\n\nL'agent écrit ici le résultat de l'analyse. Relire `cas-de-tests.md`, `ambiguites.md` et "
         "`jeux-de-donnees.md`.\nPour une correction : `/corriger " + a.nom + " <demande>`.\n"
         "Pour valider : DÉPLACER `cas-de-tests.json`, `cas-de-tests.md`, `ambiguites.md` et `jeux-de-donnees.md` "
         "dans `03-valide/`.\n", encoding="utf-8")

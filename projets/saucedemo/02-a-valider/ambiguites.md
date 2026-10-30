@@ -1,6 +1,6 @@
 # Ambiguïtés et questions — SauceDemo
 
-Questions issues de l'analyse de `01-entrant/cahier-des-charges.md`. Les réponses sont à renseigner par Julius ou le client ; tant qu'une question bloquante est ouverte, les cas liés restent à confirmer.
+Questions issues de l'analyse de `01-entrant/cahier-des-charges.md`. Les réponses sont à renseigner par le responsable du projet ou le client ; tant qu'une question bloquante est ouverte, les cas liés restent à confirmer.
 
 ### Q-001 — Libellés de l'écran de connexion et textes des messages d'erreur
 - **Type** : manque

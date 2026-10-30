@@ -1,0 +1,74 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "squash-tm": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:SQUASH_MCP_INDEX}"
+      ],
+      "environment": {
+        "SQUASH_TM_BASE_URL": "{env:SQUASH_TM_BASE_URL}",
+        "SQUASH_TM_API_TOKEN": "{env:SQUASH_TM_API_TOKEN}"
+      },
+      "enabled": true,
+      "timeout": 60000
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "cmd",
+        "/c",
+        "npx",
+        "@playwright/mcp@latest"
+      ],
+      "enabled": true,
+      "timeout": 60000
+    }
+  },
+  "tools": {
+    "squash-tm_delete_test_case": false,
+    "squash-tm_delete_test_steps": false,
+    "squash-tm_unlink_requirements_from_test_case": false,
+    "squash-tm_sync_feature_to_squash": false,
+    "squash-tm_create_project": false,
+    "squash-tm_create_project_from_template": false
+  },
+  "permission": {
+    "edit": "allow",
+    "skill": "allow",
+    "webfetch": "ask",
+    "external_directory": "ask",
+    "bash": {
+      "*": "ask",
+      "python outils/*": "allow",
+      "python3 outils/*": "allow",
+      "py outils/*": "allow",
+      "pandoc *": "allow",
+      "npx playwright test*": "allow",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "rm *": "deny",
+      "del *": "deny"
+    },
+    "squash-tm_publish_validated_test_cases": "ask",
+    "squash-tm_create_requirement": "ask",
+    "squash-tm_create_requirement_folder": "ask",
+    "squash-tm_create_test_case_folder": "ask",
+    "squash-tm_create_standard_test_case": "ask",
+    "squash-tm_add_action_step": "ask",
+    "squash-tm_link_requirements_to_test_case": "ask",
+    "squash-tm_link_requirements_to_test_step": "ask",
+    "squash-tm_mark_test_case_automated": "ask",
+    "squash-tm_create_keyword_test_case": "ask",
+    "squash-tm_create_bdd_test_case": "ask",
+    "squash-tm_update_bdd_test_case": "ask",
+    "squash-tm_create_test_step": "ask",
+    "squash-tm_update_test_step": "ask",
+    "squash-tm_add_step_to_bdd_test_case": "ask",
+    "squash-tm_update_step_in_bdd_test_case": "ask",
+    "squash-tm_transmit_test_case": "ask",
+    "squash-tm_run_automated_suite_batch": "ask"
+  }
+}

@@ -11,7 +11,7 @@ Modèle suivi : `templates/exemples/exemple-decouvertes-olib.md` (découvertes d
 
 - `projet.json` → `application.url` et `application.environnement` renseignés.
 - Identifiants dans les variables d'environnement nommées dans `application.variables_identifiants` (jamais dans un fichier versionné).
-- `projet.json` → `application.actions_autorisees` : relire ce qui est permis. Par défaut : **lecture seule**. Ne jamais créer, modifier, supprimer, payer ou envoyer sans autorisation écrite dans ce champ ou donnée par Julius dans la conversation.
+- `projet.json` → `application.actions_autorisees` : relire ce qui est permis. Par défaut : **lecture seule**. Ne jamais créer, modifier, supprimer, payer ou envoyer sans autorisation écrite dans ce champ ou donnée par le responsable du projet dans la conversation.
 - Specs BROUILLON présentes dans `04-livrables/specs/`.
 
 ## Déroulé, par fonctionnalité
@@ -35,12 +35,12 @@ Modèle suivi : `templates/exemples/exemple-decouvertes-olib.md` (découvertes d
 
 | Cas | Élément | Cas validé / CDC | Application observée | Nature | Décision |
 |---|---|---|---|---|---|
-| CT0003 | Bouton de validation | « Enregistrer » | « Valider » | libellé | à décider par Julius |
+| CT0003 | Bouton de validation | « Enregistrer » | « Valider » | libellé | à décider par le responsable du projet |
 
 Nature : `libellé`, `enchaînement`, `message`, `règle`, `donnée`, `anomalie probable`. Une différence de règle (ex. une seule confirmation au lieu de deux) est une **anomalie probable** ou une évolution non documentée : ne pas trancher.
 
 ## Après l'exploration
 
-- Proposer à Julius les corrections du JSON validé qui découlent des écarts **qu'il accepte** (libellés notamment). Elles passent par `02-a-valider` → validation → `03-valide`, comme une analyse. Squash n'est pas mis à jour automatiquement pour un cas déjà publié : lister les cas à corriger dans Squash.
+- Proposer au responsable du projet les corrections du JSON validé qui découlent des écarts **qu'il accepte** (libellés notamment). Elles passent par `02-a-valider` → validation → `03-valide`, comme une analyse. Squash n'est pas mis à jour automatiquement pour un cas déjà publié : lister les cas à corriger dans Squash.
 - Journal : `| date | explorer <fonctionnalité> | N scénarios confirmés, N écarts | fichiers |`.
 - Suite : une fois les écarts arbitrés, `/recette` produit en parallèle les scripts automatisés, le cahier de tests et le manuel.
