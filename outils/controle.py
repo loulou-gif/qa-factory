@@ -4,14 +4,14 @@
 Usage : python outils/controle.py <projet> [--dossier 02-a-valider|03-valide]
 
 Code de sortie : 0 si aucune erreur (avertissements possibles), 1 sinon.
-Règles : docs/FORMAT-CAS-DE-TESTS.md, section 4.
+Règles : docs/FORMAT-CAS-DE-TESTS.md, section 5, et docs/TECHNIQUES-ISTQB.md.
 """
 import argparse
 import re
 import sys
 
-from qa_commun import (CRITICITES, IMPORTANCES, RE_CT, RE_EX, RE_JDD, RE_Q, TECHNIQUES, TYPES_CAS,
-                       charger_cas, charger_projet, empreinte, fonctionnalites, lire_jeux, lire_questions)
+from qa_commun import (APPROCHES, CRITICITES, DECISIONS, IMPORTANCES, NIVEAUX, RE_CT, RE_EX, RE_JDD, RE_Q, RE_TT, TECHNIQUES,
+                       TYPES_CAS, TYPES_CHANGEMENT, TYPES_TEST, charger_cas, charger_projet, empreinte, fonctionnalites, lire_jeux, lire_questions)
 
 VAGUE = re.compile(r"\b(correctement|fonctionne|bien passé|avec succès|comme prévu|sans erreur|normalement|ok)\b", re.I)
 VALIDATION = re.compile(r"\b(obligatoire|unique|format|invalide|maximum|minimum|au moins|au plus|caract[eè]res?|longueur|interdit|refus)\b", re.I)
@@ -64,7 +64,16 @@ def controler(data, questions, jeux, md_fichier, empreinte_json):
         if c.get("type") not in TYPES_CAS:
             E.append(f"{ou} : type « {c.get('type')} » invalide ({', '.join(sorted(TYPES_CAS))})")
         if c.get("technique") not in TECHNIQUES:
-            E.append(f"{ou} : technique « {c.get('technique')} » invalide ({', '.join(sorted(TECHNIQUES))})")
+            E.append(f"{ou} : technique « {c.get('technique')} » hors référentiel ISTQB ({', '.join(sorted(TECHNIQUES))})")
+        elif c.get("type") == "limite" and c["technique"] != "valeurs-limites":
+            A.append(f"{ou} : cas « limite » conçu avec « {c['technique']} » : l'analyse des valeurs limites est attendue")
+        elif c["technique"] == "valeurs-limites" and c.get("type") == "nominal" and not c.get("description"):
+            A.append(f"{ou} : valeurs limites sans description : préciser la borne testée et sa source")
+        tt = c.get("type_test")
+        if tt not in TYPES_TEST:
+            E.append(f"{ou} : type_test « {tt} » invalide ({', '.join(sorted(TYPES_TEST))})")
+        elif c.get("nature") != TYPES_TEST[tt][1]:
+            E.append(f"{ou} : nature « {c.get('nature')} » incohérente avec type_test « {tt} » (attendu {TYPES_TEST[tt][1]})")
         if c.get("importance") and c["importance"] not in IMPORTANCES:
             E.append(f"{ou} : importance « {c['importance']} » invalide")
         refs = c.get("exigences") or []
@@ -100,6 +109,8 @@ def controler(data, questions, jeux, md_fichier, empreinte_json):
             elif questions[q]["statut"] == "ouverte" and questions[q]["gravite"] == "bloquante":
                 A.append(f"{ou} : suspendu à la question bloquante ouverte {q}")
 
+    controler_strategie(data, ids_ex, ids_ct, questions, E, A)
+
     for ex, lst in couverture.items():
         if not lst:
             A.append(f"{ex} : couverte par aucun cas de test")
@@ -133,18 +144,84 @@ def controler(data, questions, jeux, md_fichier, empreinte_json):
     return E, A, couverture
 
 
+def controler_strategie(data, ids_ex, ids_ct, questions, E, A):
+    """Stratégie de types de tests : chaque type ISTQB doit être examiné (retenu, non retenu ou à confirmer)."""
+    strat = data.get("strategie_tests")
+    if not isinstance(strat, list) or not strat:
+        E.append("strategie_tests manquante : chaque type de test ISTQB doit être examiné (docs/TECHNIQUES-ISTQB.md §3)")
+        return
+    vus, ids = {}, set()
+    tous = set(TYPES_TEST) | set(TYPES_CHANGEMENT)
+    for i, t in enumerate(strat):
+        ou = f"strategie_tests[{i}] ({t.get('id', '?')})"
+        if not RE_TT.match(str(t.get("id", ""))):
+            E.append(f"{ou} : id au format TT-01 attendu")
+        elif t["id"] in ids:
+            E.append(f"{ou} : id en double")
+        ids.add(t.get("id"))
+        tt = t.get("type_test")
+        if tt not in tous:
+            E.append(f"{ou} : type_test « {tt} » invalide ({', '.join(sorted(tous))})")
+            continue
+        vus.setdefault(tt, []).append(t)
+        if t.get("decision") not in DECISIONS:
+            E.append(f"{ou} : decision « {t.get('decision')} » invalide ({', '.join(sorted(DECISIONS))})")
+        if not str(t.get("justification") or "").strip():
+            E.append(f"{ou} : justification manquante (source du CDC ou raison de l'exclusion)")
+        if t.get("decision") == "retenu":
+            for champ in ("objectif", "niveau", "approche"):
+                if not str(t.get(champ) or "").strip():
+                    E.append(f"{ou} : « {champ} » manquant pour un type retenu")
+            if t.get("niveau") and t["niveau"] not in NIVEAUX:
+                E.append(f"{ou} : niveau « {t['niveau']} » invalide ({', '.join(sorted(NIVEAUX))})")
+            if t.get("approche") and t["approche"] not in APPROCHES:
+                E.append(f"{ou} : approche « {t['approche']} » invalide ({', '.join(sorted(APPROCHES))})")
+            if t.get("approche") == "cas" and not t.get("cas") and tt in TYPES_TEST:
+                A.append(f"{ou} : approche « cas » sans cas de test cité")
+            if tt in TYPES_TEST and tt != "fonctionnel" and t.get("approche") == "campagne-dediee" and not t.get("questions"):
+                A.append(f"{ou} : campagne dédiée sans question liée (seuils, environnement, outillage à confirmer ?)")
+        if t.get("decision") == "a-confirmer" and not t.get("questions"):
+            E.append(f"{ou} : type « à confirmer » sans question dans ambiguites.md")
+        for r in t.get("exigences", []):
+            if r not in ids_ex:
+                E.append(f"{ou} : exigence {r} inconnue")
+        for r in t.get("cas", []):
+            if r not in ids_ct:
+                E.append(f"{ou} : cas {r} inconnu")
+            elif tt in TYPES_TEST and ids_ct[r].get("type_test") != tt:
+                A.append(f"{ou} : {r} a le type_test « {ids_ct[r].get('type_test')} »")
+        for q in t.get("questions", []):
+            if q not in questions:
+                E.append(f"{ou} : question {q} absente de ambiguites.md")
+    for tt in sorted(tous - set(vus)):
+        E.append(f"strategie_tests : type « {tt} » non examiné (le déclarer retenu, non-retenu ou a-confirmer, avec justification)")
+    # Les exigences non fonctionnelles et les cas non fonctionnels doivent figurer dans la stratégie.
+    cat_type = {"CAT_PERFORMANCE": "performance", "CAT_SECURITY": "securite", "CAT_ERGONOMIC": "utilisabilite"}
+    for ex, e in ids_ex.items():
+        tt = cat_type.get(e.get("categorie"))
+        if tt and not any(ex in t.get("exigences", []) and t.get("decision") != "non-retenu" for t in vus.get(tt, [])):
+            A.append(f"{ex} ({e.get('categorie')}) : absente des types « {tt} » retenus ou à confirmer de la stratégie")
+    for ct, c in ids_ct.items():
+        tt = c.get("type_test")
+        if tt in TYPES_TEST and tt != "fonctionnel" and not any(ct in t.get("cas", []) for t in vus.get(tt, [])):
+            A.append(f"{ct} : cas de type « {tt} » non rattaché à la stratégie")
+
+
 def ecrire_matrice(base, data, couverture, questions):
     lignes = ["# Matrice de traçabilité exigences → cas de tests", "",
               "Générée par `outils/controle.py`. Ne pas modifier.", "",
-              "| Fonctionnalité | Exigence | Criticité | Cas nominaux | Cas négatifs / limites / autres | Questions ouvertes |",
-              "|---|---|---|---|---|---|"]
+              "| Fonctionnalité | Exigence | Criticité | Cas nominaux | Cas négatifs / limites | Types de test | Techniques ISTQB | Questions ouvertes |",
+              "|---|---|---|---|---|---|---|---|"]
     for e in data.get("exigences", []):
         lst = couverture.get(e["id"], [])
         nom = [c["id"] for c in lst if c.get("type") == "nominal"]
         autres = [f"{c['id']} ({c.get('type')})" for c in lst if c.get("type") != "nominal"]
         qs = [q for q in e.get("questions", []) if questions.get(q, {}).get("statut") == "ouverte"]
+        types = sorted({c.get("type_test", "?") for c in lst})
+        techs = sorted({c.get("technique", "?") for c in lst})
         lignes.append(f"| {e.get('fonctionnalite')} | {e['id']} {e.get('titre', '')} | {e.get('criticite', 'MAJOR')} | "
-                      f"{', '.join(nom) or '**aucun**'} | {', '.join(autres) or '—'} | {', '.join(qs) or '—'} |")
+                      f"{', '.join(nom) or '**aucun**'} | {', '.join(autres) or '—'} | {', '.join(types) or '—'} | "
+                      f"{', '.join(techs) or '—'} | {', '.join(qs) or '—'} |")
     (base / "matrice-tracabilite.md").write_text("\n".join(lignes) + "\n", encoding="utf-8")
 
 

@@ -13,9 +13,45 @@ TEMPLATES = RACINE / "templates"
 
 DOSSIERS = ["01-entrant", "02-a-valider", "03-valide", "04-livrables"]
 
-TYPES_CAS = {"nominal", "negatif", "limite", "securite", "ergonomie"}
-TECHNIQUES = {"cas-d-usage", "partitions-equivalence", "valeurs-limites", "table-decision",
-              "transition-etats", "devinette-erreurs", "exploratoire"}
+# Nature du cas (sens du test).
+TYPES_CAS = {"nominal", "negatif", "limite"}
+
+# Techniques de conception reconnues par l'ISTQB (référentiel : docs/TECHNIQUES-ISTQB.md).
+# Les techniques boîte blanche (CTFL v4.0 §4.3) sont exclues : elles exigent le code source.
+TECHNIQUES = {
+    "partitions-equivalence": ("Partitions d'équivalence", "CTFL v4.0 §4.2.1"),
+    "valeurs-limites": ("Analyse des valeurs limites", "CTFL v4.0 §4.2.2"),
+    "table-decision": ("Tables de décision", "CTFL v4.0 §4.2.3"),
+    "transition-etats": ("Test de transition d'états", "CTFL v4.0 §4.2.4"),
+    "devinette-erreurs": ("Estimation d'erreurs", "CTFL v4.0 §4.4.1"),
+    "exploratoire": ("Test exploratoire", "CTFL v4.0 §4.4.2"),
+    "checklist": ("Test basé sur des checklists", "CTFL v4.0 §4.4.3"),
+    "criteres-acceptation": ("Critères d'acceptation", "CTFL v4.0 §4.5.2"),
+    "cas-d-usage": ("Test des cas d'utilisation", "CTFL v3.1 §4.2.5, CTAL-TA"),
+    "test-combinatoire": ("Test combinatoire (par paires)", "CTAL-TA"),
+    "arbre-classification": ("Arbre de classification", "CTAL-TA"),
+}
+
+# Types de test (CTFL v4.0 §2.2.2 et caractéristiques de qualité ISO/IEC 25010).
+TYPES_TEST = {
+    "fonctionnel": ("Test fonctionnel (adéquation fonctionnelle)", "NAT_FUNCTIONAL_TESTING"),
+    "performance": ("Test de performance (rendement)", "NAT_PERFORMANCE_TESTING"),
+    "securite": ("Test de sécurité", "NAT_SECURITY_TESTING"),
+    "utilisabilite": ("Test d'utilisabilité (dont accessibilité)", "NAT_USER_TESTING"),
+    "compatibilite": ("Test de compatibilité", "NAT_NON_FUNCTIONAL_TESTING"),
+    "fiabilite": ("Test de fiabilité", "NAT_NON_FUNCTIONAL_TESTING"),
+    "maintenabilite": ("Test de maintenabilité", "NAT_NON_FUNCTIONAL_TESTING"),
+    "portabilite": ("Test de portabilité", "NAT_NON_FUNCTIONAL_TESTING"),
+}
+# Tests liés aux changements (CTFL v4.0 §2.2.3) : uniquement dans la stratégie.
+TYPES_CHANGEMENT = {
+    "confirmation": "Test de confirmation (re-test d'une anomalie corrigée)",
+    "regression": "Test de régression",
+}
+NIVEAUX = {"composant", "integration-composants", "systeme", "integration-systemes", "acceptation"}
+DECISIONS = {"retenu", "non-retenu", "a-confirmer"}
+APPROCHES = {"cas", "campagne-dediee", "checklist", "exploratoire"}
+
 CRITICITES = {"CRITICAL", "MAJOR", "MINOR", "UNDEFINED"}
 IMPORTANCES = {"LOW", "MEDIUM", "HIGH", "VERY_HIGH"}
 
@@ -23,6 +59,7 @@ RE_EX = re.compile(r"^EX-\d{3,}$")
 RE_CT = re.compile(r"^CT\d{4,}$")
 RE_Q = re.compile(r"^Q-\d{3,}$")
 RE_JDD = re.compile(r"^JDD-\d{3,}$")
+RE_TT = re.compile(r"^TT-\d{2,}$")
 
 # Windows : la console peut être en cp1252 ; on force l'UTF-8 pour les accents.
 for flux in (sys.stdout, sys.stderr):

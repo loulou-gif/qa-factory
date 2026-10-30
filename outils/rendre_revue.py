@@ -9,9 +9,21 @@ modifiée à la main ou non régénérée après une correction du JSON.
 import argparse
 from collections import Counter
 
-from qa_commun import charger_cas, charger_projet, empreinte, fonctionnalites, lire_questions
+from qa_commun import (TECHNIQUES, TYPES_CHANGEMENT, TYPES_TEST, charger_cas, charger_projet, empreinte,
+                       fonctionnalites, lire_questions)
 
-TYPES = {"nominal": "Nominal", "negatif": "Négatif", "limite": "Limite", "securite": "Sécurité", "ergonomie": "Ergonomie"}
+TYPES = {"nominal": "Nominal", "negatif": "Négatif", "limite": "Limite"}
+DECISIONS = {"retenu": "Retenu", "non-retenu": "Non retenu", "a-confirmer": "À confirmer"}
+APPROCHES = {"cas": "Cas de tests de ce fichier", "campagne-dediee": "Campagne dédiée", "checklist": "Checklist",
+             "exploratoire": "Sessions exploratoires"}
+
+
+def libelle_type(tt):
+    return TYPES_TEST[tt][0] if tt in TYPES_TEST else TYPES_CHANGEMENT.get(tt, tt or "")
+
+
+def libelle_technique(t):
+    return f"{TECHNIQUES[t][0]} ({TECHNIQUES[t][1]})" if t in TECHNIQUES else (t or "")
 
 
 def cellule(t):
@@ -46,12 +58,30 @@ def rendre(projet_nom, dossier):
     ]
     for t, n in sorted(Counter(c.get("type", "?") for c in cas).items()):
         lignes.append(f"| Cas {TYPES.get(t, t).lower()} | {n} |")
+    for t, n in sorted(Counter(c.get("type_test", "?") for c in cas).items()):
+        lignes.append(f"| Type de test : {libelle_type(t).lower()} | {n} |")
+    for t, n in sorted(Counter(c.get("technique", "?") for c in cas).items()):
+        lignes.append(f"| Technique : {libelle_technique(t)} | {n} |")
     ouvertes = [q for q in questions.values() if q["statut"] == "ouverte"]
     bloquantes = [qid for qid, q in questions.items() if q["statut"] == "ouverte" and q["gravite"] == "bloquante"]
     lignes += [
         f"| Questions ouvertes | {len(ouvertes)} (dont bloquantes : {len(bloquantes)}) |",
         "",
     ]
+
+    strat = data.get("strategie_tests") or []
+    if strat:
+        lignes += ["## Stratégie de types de tests (ISTQB)", "",
+                   "Chaque type de test ISTQB est examiné : retenu, non retenu (avec la raison) ou à confirmer (avec une question).", "",
+                   "| ID | Type de test | Décision | Niveau | Approche | Objectif | Exigences | Cas | Outil | Justification | Questions |",
+                   "|---|---|---|---|---|---|---|---|---|---|---|"]
+        for t in strat:
+            lignes.append(" | ".join([
+                f"| {t.get('id', '')}", libelle_type(t.get("type_test")), DECISIONS.get(t.get("decision"), t.get("decision", "")),
+                cellule(t.get("niveau", "")), APPROCHES.get(t.get("approche"), cellule(t.get("approche", ""))),
+                cellule(t.get("objectif", "")), ", ".join(t.get("exigences", [])), ", ".join(t.get("cas", [])),
+                cellule(t.get("outil", "")), cellule(t.get("justification", "")), ", ".join(t.get("questions", [])) + " |"]))
+        lignes.append("")
 
     for f in fonctionnalites(data):
         lignes += [f"## {f}", "", "### Exigences", "", "| ID | Exigence | Criticité | Source | Questions |", "|---|---|---|---|---|"]
@@ -67,7 +97,8 @@ def rendre(projet_nom, dossier):
                 f"#### {c['id']} — {c.get('titre', '')}{alerte}",
                 "",
                 f"- **Exigences** : {', '.join(c.get('exigences', []))}",
-                f"- **Type** : {TYPES.get(c.get('type'), c.get('type'))} — **Technique** : {c.get('technique', '')} — **Importance** : {c.get('importance', 'MEDIUM')}",
+                f"- **Nature** : {TYPES.get(c.get('type'), c.get('type'))} — **Type de test** : {libelle_type(c.get('type_test'))} — **Importance** : {c.get('importance', 'MEDIUM')}",
+                f"- **Technique ISTQB** : {libelle_technique(c.get('technique'))}",
                 f"- **Prérequis** : {cellule(c.get('prerequis'))}",
             ]
             if c.get("description"):

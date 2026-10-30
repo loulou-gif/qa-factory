@@ -6,6 +6,10 @@ Chaîne de production des livrables de test, pilotée par un agent (Claude Code 
 
 Tout passe par un seul fichier validé, `cas-de-tests.json` : Squash, le cahier Excel et les specs en sont générés avec les mêmes identifiants (`EX-001`, `CT0001`). Rien n'est réécrit à la main à côté.
 
+Les cas de tests sont conçus **uniquement avec les techniques reconnues par l'ISTQB** (partitions d'équivalence, valeurs limites, tables de décision, transitions d'états, cas d'utilisation, critères d'acceptation, estimation d'erreurs…), chacun avec sa technique et son type de test. L'analyse indique aussi **quels types de tests effectuer** : fonctionnel, performance, sécurité, utilisabilité, compatibilité, fiabilité, maintenabilité, portabilité, confirmation et régression, chacun retenu, à confirmer ou non retenu avec sa justification. Référentiel : `docs/TECHNIQUES-ISTQB.md`.
+
+**Pour savoir à quoi sert chaque document et comment l'utiliser : `docs/GUIDE-UTILISATION.md`.**
+
 ## Installation (une fois par poste)
 
 QA Factory fonctionne avec **Claude Code** ou **OpenCode** (même dépôt, mêmes règles, mêmes skills, mêmes commandes). Guide détaillé pour OpenCode : `docs/OPENCODE.md`.
@@ -29,7 +33,7 @@ QA Factory fonctionne avec **Claude Code** ou **OpenCode** (même dépôt, même
 |---|---|---|---|
 | 1. Créer le projet | Responsable | `/nouveau-projet saucedemo https://www.saucedemo.com 28` | `projets/saucedemo/` et `projet.json` |
 | 2. Déposer les documents | Responsable | (explorateur de fichiers) | CDC, US, DSF dans `01-entrant/` |
-| 3. Analyser | Agent | `/analyser saucedemo` | `02-a-valider/` : cas, questions, jeux de données |
+| 3. Analyser | Agent | `/analyser saucedemo` | `02-a-valider/` : cas (techniques ISTQB), stratégie de types de tests, questions, jeux de données |
 | 4. Relire, corriger | Responsable + agent | `/corriger saucedemo <demande>` | nouvelle version dans `02-a-valider/` |
 | 5. **Valider** | **Responsable** | **déplacer les 4 fichiers dans `03-valide/`** | validation |
 | 6. Publier dans Squash | Agent, accord du responsable du projet | `/publier saucedemo` | exigences + cas liés dans Squash |
@@ -60,6 +64,8 @@ qa-factory/
 │   ├── commands/             commandes OpenCode, générées depuis .claude/commands
 │   └── agents/               sous-agents de /recette : qa-automatisation, qa-cahier, qa-manuel
 ├── docs/
+│   ├── GUIDE-UTILISATION.md     à quoi sert chaque document, qui l'écrit, comment l'utiliser
+│   ├── TECHNIQUES-ISTQB.md      techniques de conception et types de test autorisés (référentiel)
 │   ├── FORMAT-CAS-DE-TESTS.md   format des fichiers d'analyse et règles de contrôle
 │   ├── OPENCODE.md              guide de l'équipe sous OpenCode
 │   └── regles-livrables.md      règles de rédaction du manuel et du cahier
@@ -90,6 +96,7 @@ python outils/synchroniser_opencode.py                  # après modification d'
 - Rien n'est publié ni généré depuis `02-a-valider` : seul ce que le responsable du projet a déplacé dans `03-valide` compte.
 - Squash : simulation d'abord, publication réelle après accord ; aucune suppression possible (bloquée dans le MCP et dans `.claude/settings.json`).
 - Aucune donnée inventée : un manque du cahier des charges devient une question (`ambiguites.md`).
+- Conception ISTQB contrôlée : une technique ou un type de test hors référentiel, ou un type de test non examiné dans la stratégie, est une erreur de `outils/controle.py`.
 - Aucun secret dans les fichiers : identifiants par variables d'environnement.
 - Le cahier de tests et le manuel ne sont jamais produits avant que la plateforme soit accessible et explorée.
 

@@ -50,7 +50,8 @@ Pourquoi deux temps : avant que l'application existe, les libellés, enchaîneme
 5. **Contrôle avant de dire « fini ».** Après chaque production, lancer `python outils/controle.py <projet>` et corriger jusqu'à 0 erreur. Les avertissements sont rapportés au responsable du projet, pas cachés.
 6. **Journal.** Chaque étape terminée ajoute une ligne à `projets/<projet>/journal.md` (date, commande, résultat, fichiers produits).
 7. **Honnêteté des résultats.** Distinguer PASS, FAIL, BLOCKED, NOT_RUN. Ne jamais affaiblir une assertion ou marquer un test exécuté sans exécution réelle. Ne jamais remplir les colonnes RÉSULTAT/STATUT du cahier sans exécution observée.
-8. **Environnements.** Aucune action destructive, paiement réel ou test intrusif sans environnement et données de test explicitement autorisés (voir `projet.json` → `application.actions_autorisees`).
+8. **Conception ISTQB.** Les cas de tests sont conçus **uniquement** avec les techniques de `docs/TECHNIQUES-ISTQB.md` (partitions d'équivalence, valeurs limites, tables de décision, transitions d'états, cas d'utilisation, critères d'acceptation, estimation d'erreurs…), chacun portant sa technique, son type de test et sa nature. L'analyse produit aussi la stratégie de types de tests : les 10 types ISTQB (fonctionnel, performance, sécurité, utilisabilité, compatibilité, fiabilité, maintenabilité, portabilité, confirmation, régression) sont examinés et déclarés retenus, à confirmer ou non retenus, avec justification.
+9. **Environnements.** Aucune action destructive, paiement réel ou test intrusif sans environnement et données de test explicitement autorisés (voir `projet.json` → `application.actions_autorisees`).
 
 ## Où trouver quoi
 
@@ -58,6 +59,8 @@ Pourquoi deux temps : avant que l'application existe, les libellés, enchaîneme
 |---|---|
 | Format du fichier source | `docs/FORMAT-CAS-DE-TESTS.md` |
 | Analyse du cahier des charges | skill `analyse-cdc` |
+| Techniques et types de test autorisés | `docs/TECHNIQUES-ISTQB.md` |
+| Guide d'utilisation des documents | `docs/GUIDE-UTILISATION.md` |
 | Publication Squash | skill `publication-squash` |
 | Cahier de tests Excel | skill `cahier-de-tests` |
 | Specs d'automatisation | skill `specs-automatisation` |

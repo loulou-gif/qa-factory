@@ -68,8 +68,17 @@ def lignes_jdd(jdd):
     return res
 
 
+# Types de test automatisables avec Playwright (interface web). Les autres (performance, fiabilité…)
+# relèvent d'une campagne dédiée (Gatling, k6, outils de sécurité…) décrite dans strategie_tests.
+TYPES_PLAYWRIGHT = {"fonctionnel", "securite", "utilisabilite", "compatibilite"}
+
+
+def automatisable(c):
+    return c.get("type_test", "fonctionnel") in TYPES_PLAYWRIGHT
+
+
 def generer(d, projet, data, f, questions, jeux, version):
-    cas = [c for c in data["cas_de_tests"] if c.get("fonctionnalite") == f]
+    cas = [c for c in data["cas_de_tests"] if c.get("fonctionnalite") == f and automatisable(c)]
     exigences = [e for e in data["exigences"] if e.get("fonctionnalite") == f]
     code = slug(f).upper().replace("-", "_")
     tags = {slug(f), "regression"}
@@ -121,6 +130,8 @@ def generer(d, projet, data, f, questions, jeux, version):
               f"tags      : [{', '.join(sorted({slug(f), c.get('type', '')}))}]",
               f"exigences : [{', '.join(c.get('exigences', []))}]",
               f"type      : {c.get('type', '')}",
+              f"type_test : {c.get('type_test', 'fonctionnel')}",
+              f"technique : {c.get('technique', '')}",
               f"importance: {c.get('importance', 'MEDIUM')}"]
         if c.get("jeux_de_donnees"):
             L.append(f"data      : [{', '.join(slug(j).replace('-', '_') for j in c['jeux_de_donnees'])}]")
@@ -159,8 +170,9 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     ecrits, ignores = [], []
     sans_cas = []
+    hors = [c for c in data["cas_de_tests"] if not automatisable(c)]
     for f in fonctionnalites(data):
-        if not any(c.get("fonctionnalite") == f for c in data["cas_de_tests"]):
+        if not any(c.get("fonctionnalite") == f and automatisable(c) for c in data["cas_de_tests"]):
             sans_cas.append(f)
             continue
         cible = out_dir / f"{slug(f)}.md"
@@ -175,7 +187,9 @@ def main():
     for n in ignores:
         print(f"conservé (CONFIRMÉE) : 04-livrables/specs/{n}")
     for f in sans_cas:
-        print(f"pas de spec : « {f} » n'a aucun cas de test")
+        print(f"pas de spec : « {f} » n'a aucun cas automatisable avec Playwright")
+    for c in hors:
+        print(f"hors Playwright : {c['id']} ({c.get('type_test')}) → campagne dédiée, voir strategie_tests")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
-<!-- Fichier généré par outils/rendre_revue.py à partir de cas-de-tests.json — NE PAS MODIFIER. empreinte: be2bd7199988340c -->
-# Cas de tests — SauceDemo (version 1)
+<!-- Fichier généré par outils/rendre_revue.py à partir de cas-de-tests.json — NE PAS MODIFIER. empreinte: b3dafa43ba689363 -->
+# Cas de tests — SauceDemo (version 2)
 
 Vue de relecture. Pour corriger : `/corriger saucedemo <demande>` (le JSON est modifié, puis cette vue est régénérée).
 
@@ -12,10 +12,34 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 | Fonctionnalités | 5 |
 | Exigences | 17 |
 | Cas de tests | 27 |
-| Cas négatif | 10 |
-| Cas nominal | 15 |
-| Cas sécurité | 2 |
-| Questions ouvertes | 9 (dont bloquantes : 2) |
+| Cas négatif | 11 |
+| Cas nominal | 16 |
+| Type de test : test fonctionnel (adéquation fonctionnelle) | 25 |
+| Type de test : test de sécurité | 2 |
+| Technique : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA) | 11 |
+| Technique : Critères d'acceptation (CTFL v4.0 §4.5.2) | 1 |
+| Technique : Estimation d'erreurs (CTFL v4.0 §4.4.1) | 1 |
+| Technique : Partitions d'équivalence (CTFL v4.0 §4.2.1) | 9 |
+| Technique : Tables de décision (CTFL v4.0 §4.2.3) | 2 |
+| Technique : Test de transition d'états (CTFL v4.0 §4.2.4) | 3 |
+| Questions ouvertes | 11 (dont bloquantes : 2) |
+
+## Stratégie de types de tests (ISTQB)
+
+Chaque type de test ISTQB est examiné : retenu, non retenu (avec la raison) ou à confirmer (avec une question).
+
+| ID | Type de test | Décision | Niveau | Approche | Objectif | Exigences | Cas | Outil | Justification | Questions |
+|---|---|---|---|---|---|---|---|---|---|---|
+| TT-01 | Test fonctionnel (adéquation fonctionnelle) | Retenu | systeme | Cas de tests de ce fichier | Vérifier les règles fonctionnelles des sections 2 à 5 du CDC (authentification, catalogue, panier, commande). | EX-001, EX-002, EX-003, EX-004, EX-005, EX-006, EX-007, EX-008, EX-009, EX-010, EX-011, EX-012, EX-013, EX-014, EX-015 | CT0001, CT0002, CT0003, CT0004, CT0005, CT0006, CT0007, CT0009, CT0011, CT0012, CT0013, CT0014, CT0015, CT0016, CT0017, CT0018, CT0019, CT0020, CT0021, CT0022, CT0023, CT0024, CT0025, CT0026, CT0027 | Squash TM (exécution manuelle), Playwright (automatisation) | CDC §2 à §5 : exigences fonctionnelles explicites. |  |
+| TT-02 | Test de sécurité | Retenu | systeme | Cas de tests de ce fichier | Vérifier le masquage du mot de passe et l'impossibilité d'accéder aux pages internes sans session. | EX-017, EX-005 | CT0008, CT0010 | Playwright | CDC §6.2 (mots de passe jamais en clair) et §2.5 (pas d'accès aux pages internes après déconnexion). Aucun test intrusif (injection, force brute) sans autorisation écrite : non demandé par le CDC. |  |
+| TT-03 | Test de performance (rendement) | À confirmer | systeme | Campagne dédiée | Mesurer les temps de réponse des pages principales (connexion, catalogue, panier, commande) sous la charge attendue. | EX-016 |  | Gatling | CDC §6.1 « l'application doit être rapide » : exigence présente mais non mesurable ; seuils, pages et charge à définir avant toute campagne. | Q-004 |
+| TT-04 | Test de compatibilité | À confirmer |  |  |  |  |  |  | Le CDC ne précise ni navigateurs ni appareils supportés ; une boutique en ligne est généralement utilisée sur plusieurs navigateurs et sur mobile. | Q-010 |
+| TT-05 | Test d'utilisabilité (dont accessibilité) | À confirmer |  |  |  |  |  |  | Le CDC ne formule aucune exigence d'ergonomie ni d'accessibilité (RGAA, WCAG). | Q-011 |
+| TT-06 | Test de fiabilité | Non retenu |  |  |  |  |  |  | Aucune exigence de disponibilité, de tolérance aux pannes ou de reprise dans le CDC ; environnement de démonstration public. |  |
+| TT-07 | Test de maintenabilité | Non retenu |  |  |  |  |  |  | Relève de l'équipe de développement (revue de code, analyse statique) ; aucun accès au code source. |  |
+| TT-08 | Test de portabilité | Non retenu |  |  |  |  |  |  | Application web hébergée par le fournisseur : aucune installation ni migration à tester d'après le CDC. |  |
+| TT-09 | Test de confirmation (re-test d'une anomalie corrigée) | Retenu | systeme | Cas de tests de ce fichier | Rejouer le cas qui a révélé une anomalie une fois celle-ci déclarée corrigée. |  |  | Squash TM (campagne de re-test) | Pratique standard de recette (CTFL v4.0 §2.2.3) pour chaque anomalie corrigée. |  |
+| TT-10 | Test de régression | Retenu | systeme | Cas de tests de ce fichier | Rejouer à chaque nouvelle livraison les parcours principaux automatisés (smoke) puis l'ensemble des cas automatisés. |  | CT0001, CT0009, CT0011, CT0017, CT0018, CT0019, CT0021, CT0025, CT0026 | Playwright (tags @smoke et @regression) | Parcours bloquants pour le métier (importance HIGH ou VERY_HIGH) ; l'application évolue par livraisons successives. |  |
 
 ## Authentification
 
@@ -35,7 +59,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0001 — Se connecter avec un compte valide
 
 - **Exigences** : EX-001
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : VERY_HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : VERY_HIGH
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Avoir le lien de l'application et le compte standard JDD-001. Être déconnecté.
 - **Jeux de données** : JDD-001
 
@@ -48,7 +73,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0002 — Bloquer la connexion sans nom d'utilisateur
 
 - **Exigences** : EX-002
-- **Type** : Négatif — **Technique** : partitions-equivalence — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être sur la page de connexion. Disposer du mot de passe du compte JDD-001.
 - **Jeux de données** : JDD-001
 - **Questions liées** : Q-001
@@ -61,7 +87,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0003 — Bloquer la connexion sans mot de passe
 
 - **Exigences** : EX-002
-- **Type** : Négatif — **Technique** : partitions-equivalence — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être sur la page de connexion. Disposer du nom d'utilisateur du compte JDD-001.
 - **Jeux de données** : JDD-001
 - **Questions liées** : Q-001
@@ -74,7 +101,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0004 — Bloquer la connexion avec les deux champs vides
 
 - **Exigences** : EX-002
-- **Type** : Négatif — **Technique** : partitions-equivalence — **Importance** : MEDIUM
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : MEDIUM
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être sur la page de connexion.
 - **Questions liées** : Q-001
 
@@ -85,7 +113,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0005 — Refuser un mot de passe incorrect
 
 - **Exigences** : EX-003
-- **Type** : Négatif — **Technique** : table-decision — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Tables de décision (CTFL v4.0 §4.2.3)
 - **Prérequis** : Être sur la page de connexion. Disposer du nom d'utilisateur du compte JDD-001 et du mot de passe erroné de JDD-003.
 - **Jeux de données** : JDD-001, JDD-003
 - **Questions liées** : Q-001
@@ -98,7 +127,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0006 — Refuser un nom d'utilisateur inconnu
 
 - **Exigences** : EX-003
-- **Type** : Négatif — **Technique** : table-decision — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Tables de décision (CTFL v4.0 §4.2.3)
 - **Prérequis** : Être sur la page de connexion.
 - **Jeux de données** : JDD-003
 - **Questions liées** : Q-001
@@ -111,7 +141,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0007 — Refuser la connexion d'un compte verrouillé — **suspendu à une question bloquante**
 
 - **Exigences** : EX-004
-- **Type** : Négatif — **Technique** : transition-etats — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Test de transition d'états (CTFL v4.0 §4.2.4)
 - **Prérequis** : Être sur la page de connexion. Disposer d'un compte verrouillé par l'administrateur (JDD-002).
 - **Jeux de données** : JDD-002
 - **Questions liées** : Q-001, Q-002
@@ -124,7 +155,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0008 — Masquer le mot de passe lors de la saisie
 
 - **Exigences** : EX-017
-- **Type** : Sécurité — **Technique** : cas-d-usage — **Importance** : HIGH
+- **Nature** : Nominal — **Type de test** : Test de sécurité — **Importance** : HIGH
+- **Technique ISTQB** : Critères d'acceptation (CTFL v4.0 §4.5.2)
 - **Prérequis** : Être sur la page de connexion. Disposer du compte JDD-001.
 - **Jeux de données** : JDD-001
 
@@ -135,7 +167,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0009 — Se déconnecter depuis le menu latéral
 
 - **Exigences** : EX-005
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001 et se trouver sur la page « Products ».
 - **Jeux de données** : JDD-001
 
@@ -147,7 +180,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0010 — Interdire l'accès aux pages internes après déconnexion
 
 - **Exigences** : EX-005
-- **Type** : Sécurité — **Technique** : transition-etats — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test de sécurité — **Importance** : HIGH
+- **Technique ISTQB** : Test de transition d'états (CTFL v4.0 §4.2.4)
 - **Prérequis** : Avoir relevé l'adresse de la page « Products » pendant une session, puis s'être déconnecté (CT0009).
 - **Jeux de données** : JDD-001
 
@@ -170,7 +204,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0011 — Afficher le catalogue avec les informations de chaque article
 
 - **Exigences** : EX-006
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001.
 - **Jeux de données** : JDD-001
 
@@ -181,7 +216,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0012 — Vérifier le tri par défaut par nom de A à Z
 
 - **Exigences** : EX-007
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : MEDIUM
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : MEDIUM
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001, sans avoir modifié le tri.
 - **Jeux de données** : JDD-001
 
@@ -192,7 +228,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0013 — Trier les articles par nom de Z à A
 
 - **Exigences** : EX-007
-- **Type** : Nominal — **Technique** : partitions-equivalence — **Importance** : MEDIUM
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : MEDIUM
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être connecté avec le compte JDD-001.
 - **Jeux de données** : JDD-001
 
@@ -203,7 +240,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0014 — Trier les articles par prix croissant
 
 - **Exigences** : EX-007
-- **Type** : Nominal — **Technique** : partitions-equivalence — **Importance** : MEDIUM
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : MEDIUM
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être connecté avec le compte JDD-001.
 - **Jeux de données** : JDD-001
 
@@ -214,7 +252,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0015 — Trier les articles par prix décroissant
 
 - **Exigences** : EX-007
-- **Type** : Nominal — **Technique** : partitions-equivalence — **Importance** : MEDIUM
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : MEDIUM
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être connecté avec le compte JDD-001.
 - **Jeux de données** : JDD-001
 
@@ -225,7 +264,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0016 — Ouvrir la fiche d'un article et revenir au catalogue
 
 - **Exigences** : EX-008
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : LOW
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : LOW
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001 et se trouver sur la page « Products ».
 - **Jeux de données** : JDD-001
 
@@ -249,7 +289,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0017 — Ajouter un article au panier depuis le catalogue
 
 - **Exigences** : EX-009
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : VERY_HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : VERY_HIGH
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001, panier vide.
 - **Jeux de données** : JDD-001, JDD-005
 
@@ -261,7 +302,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0018 — Afficher dans le panier les articles ajoutés
 
 - **Exigences** : EX-010
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001 et avoir ajouté les deux articles de JDD-005 au panier.
 - **Jeux de données** : JDD-001, JDD-005
 
@@ -272,7 +314,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0019 — Retirer un article depuis le panier
 
 - **Exigences** : EX-010
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001, avoir ajouté les deux articles de JDD-005 et ouvert le panier.
 - **Jeux de données** : JDD-001, JDD-005
 - **Questions liées** : Q-009
@@ -284,7 +327,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0020 — Conserver le panier pendant la navigation
 
 - **Exigences** : EX-011
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : MEDIUM
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : MEDIUM
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001 et avoir ajouté les deux articles de JDD-005.
 - **Jeux de données** : JDD-001, JDD-005
 - **Questions liées** : Q-006
@@ -310,7 +354,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0021 — Passer une commande complète
 
 - **Exigences** : EX-012, EX-013, EX-014
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : VERY_HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : VERY_HIGH
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001 et avoir ajouté les deux articles de JDD-005 au panier. Disposer des informations de livraison JDD-004.
 - **Jeux de données** : JDD-001, JDD-004, JDD-005
 - **Questions liées** : Q-007
@@ -324,7 +369,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0022 — Bloquer la commande sans prénom
 
 - **Exigences** : EX-012
-- **Type** : Négatif — **Technique** : partitions-equivalence — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être connecté avec le compte JDD-001, avoir un article dans le panier et ouvrir le formulaire d'informations.
 - **Jeux de données** : JDD-001, JDD-004
 - **Questions liées** : Q-001
@@ -336,7 +382,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0023 — Bloquer la commande sans nom
 
 - **Exigences** : EX-012
-- **Type** : Négatif — **Technique** : partitions-equivalence — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être connecté avec le compte JDD-001, avoir un article dans le panier et ouvrir le formulaire d'informations.
 - **Jeux de données** : JDD-001, JDD-004
 - **Questions liées** : Q-001
@@ -348,7 +395,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0024 — Bloquer la commande sans code postal
 
 - **Exigences** : EX-012
-- **Type** : Négatif — **Technique** : partitions-equivalence — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Partitions d'équivalence (CTFL v4.0 §4.2.1)
 - **Prérequis** : Être connecté avec le compte JDD-001, avoir un article dans le panier et ouvrir le formulaire d'informations.
 - **Jeux de données** : JDD-001, JDD-004
 - **Questions liées** : Q-001, Q-008
@@ -360,7 +408,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0025 — Vérifier le calcul du total du récapitulatif
 
 - **Exigences** : EX-013
-- **Type** : Nominal — **Technique** : cas-d-usage — **Importance** : VERY_HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : VERY_HIGH
+- **Technique ISTQB** : Test des cas d'utilisation (CTFL v3.1 §4.2.5, CTAL-TA)
 - **Prérequis** : Être connecté avec le compte JDD-001, avoir ajouté les deux articles de JDD-005 et atteint le récapitulatif avec les informations JDD-004.
 - **Jeux de données** : JDD-001, JDD-004, JDD-005
 - **Questions liées** : Q-003
@@ -373,7 +422,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0026 — Vider le panier après validation de la commande
 
 - **Exigences** : EX-014
-- **Type** : Nominal — **Technique** : transition-etats — **Importance** : HIGH
+- **Nature** : Nominal — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Test de transition d'états (CTFL v4.0 §4.2.4)
 - **Prérequis** : Avoir validé une commande avec « Finish » (CT0021).
 - **Jeux de données** : JDD-001
 
@@ -384,7 +434,8 @@ Sources analysées : 01-entrant/cahier-des-charges.md
 #### CT0027 — Empêcher une commande avec un panier vide — **suspendu à une question bloquante**
 
 - **Exigences** : EX-015
-- **Type** : Négatif — **Technique** : devinette-erreurs — **Importance** : HIGH
+- **Nature** : Négatif — **Type de test** : Test fonctionnel (adéquation fonctionnelle) — **Importance** : HIGH
+- **Technique ISTQB** : Estimation d'erreurs (CTFL v4.0 §4.4.1)
 - **Prérequis** : Être connecté avec le compte JDD-001, panier vide.
 - **Jeux de données** : JDD-001
 - **Questions liées** : Q-005

@@ -17,7 +17,7 @@ fichier Python écrit à la main.
 - Identifiants : ceux du JSON (CT0001…), jamais renumérotés.
 - RÉSULTAT, STATUT et COMMENTAIRE restent vides : ils sont remplis lors de la recette.
 - --nominaux : ne garde que les cas de type « nominal » (cahier de recette client).
-- Feuille « Traçabilité » : cas → exigences → spec → test automatisé (s'il existe).
+- Feuille « Traçabilité » : cas → exigences → nature, type de test et technique ISTQB → spec → test automatisé (s'il existe).
 """
 import argparse
 import io
@@ -37,13 +37,21 @@ from openpyxl.styles.differential import DifferentialStyle
 from openpyxl.utils.units import pixels_to_EMU
 from openpyxl.worksheet.datavalidation import DataValidation
 
-from qa_commun import TEMPLATES, charger_cas, charger_projet, erreur, fonctionnalites, journaliser, slug
+from qa_commun import TECHNIQUES, TYPES_TEST, TEMPLATES, charger_cas, charger_projet, erreur, fonctionnalites, journaliser, slug
 
 TEMPLATE = TEMPLATES / "cahier" / "modele_cahier.xlsx"
 LOGO_SOURCE = TEMPLATES / "manuel" / "modele_manuel.docx"
 FIRST_ROW = 32  # première ligne de la zone de détail du modèle (après l'en-tête ligne 31)
 LINE_HEIGHT = 15.0
-TYPES = {"nominal": "Nominal", "negatif": "Négatif", "limite": "Limite", "securite": "Sécurité", "ergonomie": "Ergonomie"}
+TYPES = {"nominal": "Nominal", "negatif": "Négatif", "limite": "Limite"}
+
+
+def nature_cas(c):
+    """« Négatif — Test de sécurité — Partitions d'équivalence (CTFL v4.0 §4.2.1) » pour la traçabilité."""
+    tt = TYPES_TEST.get(c.get("type_test"), (c.get("type_test", ""),))[0]
+    tech = TECHNIQUES.get(c.get("technique"))
+    return " — ".join(x for x in (TYPES.get(c.get("type"), c.get("type", "")), tt,
+                                   f"{tech[0]} ({tech[1]})" if tech else c.get("technique", "")) if x)
 
 
 def lines_needed(text, width):
@@ -192,7 +200,7 @@ def main():
                     heights[bottom] += need - have
             auto = item.get("automatisation") or {}
             trace.append((item["id"], feature.replace("\n", " "), desc, ", ".join(item.get("exigences", [])),
-                          TYPES.get(item.get("type"), item.get("type", "")),
+                          nature_cas(item),
                           f"04-livrables/specs/{slug(item.get('fonctionnalite', ''))}.md",
                           auto.get("test", "—")))
             row = bottom + 1
@@ -232,7 +240,7 @@ def main():
 
     # Feuille de traçabilité
     ts = wb.create_sheet("Traçabilité")
-    header = ("ID", "FONCTIONNALITES", "DESCRIPTION", "EXIGENCES", "TYPE", "SPECIFICATION", "TEST AUTOMATISE")
+    header = ("ID", "FONCTIONNALITES", "DESCRIPTION", "EXIGENCES", "NATURE / TYPE DE TEST / TECHNIQUE ISTQB", "SPECIFICATION", "TEST AUTOMATISE")
     head_proto = ws["A31"]
     for c, value in enumerate(header, start=1):
         cell = ts.cell(1, c, value)
@@ -241,8 +249,8 @@ def main():
     for r, values in enumerate(trace, start=2):
         for c, value in enumerate(values, start=1):
             ts.cell(r, c, value).alignment = Alignment(vertical="center", wrap_text=True,
-                                                       horizontal="center" if c in (1, 5) else None)
-    for col, width in zip("ABCDEFG", (10, 28, 45, 18, 12, 40, 50)):
+                                                       horizontal="center" if c == 1 else None)
+    for col, width in zip("ABCDEFG", (10, 28, 45, 18, 40, 40, 50)):
         ts.column_dimensions[col].width = width
     ts.freeze_panes = "A2"
     ts.auto_filter.ref = f"A1:G{len(trace) + 1}"

@@ -1,7 +1,7 @@
 ---
 description: Temps A — analyse le cahier des charges d'un projet et produit cas de tests, ambiguïtés et jeux de données dans 02-a-valider
 ---
-Analyse les documents d'entrée du projet « $ARGUMENTS » en suivant **strictement** la skill `analyse-cdc` et le format `docs/FORMAT-CAS-DE-TESTS.md`.
+Analyse les documents d'entrée du projet « $ARGUMENTS » en suivant **strictement** la skill `analyse-cdc`, le format `docs/FORMAT-CAS-DE-TESTS.md` et le référentiel `docs/TECHNIQUES-ISTQB.md` (techniques de conception ISTQB uniquement, stratégie des 10 types de tests).
 
 - Entrées : `projets/$ARGUMENTS/01-entrant/` et `projets/$ARGUMENTS/projet.json`.
 - Sorties : `projets/$ARGUMENTS/02-a-valider/` → `cas-de-tests.json`, `cas-de-tests.md` (généré), `ambiguites.md`, `jeux-de-donnees.md`, `matrice-tracabilite.md` (généré).

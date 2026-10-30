@@ -100,3 +100,25 @@ Questions issues de l'analyse de `01-entrant/cahier-des-charges.md`. Les répons
 - **Proposition** : considérer que seul le retrait est possible, conformément au CDC.
 - **Réponse** :
 - **Statut** : ouverte
+
+### Q-010 — Navigateurs et appareils supportés
+- **Type** : manque
+- **Gravité** : importante
+- **Source** : CDC (absent)
+- **Constat** : le CDC ne précise pas les navigateurs, versions ni appareils (ordinateur, mobile, tablette) sur lesquels l'application doit fonctionner.
+- **Question** : quels navigateurs et appareils doivent être couverts par la recette ?
+- **Impact** : TT-04
+- **Proposition** : couvrir Chrome, Edge et Firefox dans leur dernière version sur ordinateur, puis un navigateur mobile si le client le confirme.
+- **Réponse** :
+- **Statut** : ouverte
+
+### Q-011 — Exigences d'ergonomie et d'accessibilité
+- **Type** : manque
+- **Gravité** : mineure
+- **Source** : CDC (absent)
+- **Constat** : le CDC ne formule aucune exigence d'ergonomie ni d'accessibilité.
+- **Question** : un référentiel d'accessibilité (RGAA, WCAG 2.1 niveau AA) ou des critères d'ergonomie sont-ils exigés ?
+- **Impact** : TT-05
+- **Proposition** : sans exigence, se limiter aux remarques d'ergonomie relevées pendant l'exploration, sans campagne dédiée.
+- **Réponse** :
+- **Statut** : ouverte

@@ -9,7 +9,7 @@ L'analyse d'un cahier des charges produit trois fichiers, plus une vue de relect
 | `ambiguites.md` | Ambiguïtés, contradictions, manques, questions | L'agent, puis réponses du responsable du projet ou du client |
 | `jeux-de-donnees.md` | Jeux de données nécessaires aux cas | L'agent |
 
-Le JSON est un sur-ensemble du format attendu par le MCP Squash (`publish_validated_test_cases`, voir `docs/FORMAT.md` du dépôt `squash-tm-mcp`). Les champs supplémentaires (`type`, `technique`, `questions`, `meta`…) sont ignorés par Squash et servent au cahier, aux specs et au contrôle.
+Le JSON est un sur-ensemble du format attendu par le MCP Squash (`publish_validated_test_cases`, voir `docs/FORMAT.md` du dépôt `squash-tm-mcp`). Les champs supplémentaires (`type`, `type_test`, `technique`, `strategie_tests`, `questions`, `meta`…) sont ignorés par Squash et servent au cahier, aux specs et au contrôle. Les techniques et types de test autorisés sont définis dans `docs/TECHNIQUES-ISTQB.md`.
 
 ## 1. `cas-de-tests.json`
 
@@ -23,6 +23,7 @@ Le JSON est un sur-ensemble du format attendu par le MCP Squash (`publish_valida
   },
   "projet": { "id": 28 },
   "ranger_par_fonctionnalite": true,
+  "strategie_tests": [ ... ],
   "exigences": [ ... ],
   "cas_de_tests": [ ... ]
 }
@@ -35,6 +36,7 @@ Le JSON est un sur-ensemble du format attendu par le MCP Squash (`publish_valida
 | `meta.version` | Oui | Incrémentée à chaque correction après relecture |
 | `projet.id` | Pour publier | ID du projet Squash (repris de `projet.json`) |
 | `ranger_par_fonctionnalite` | Non | Un dossier Squash par fonctionnalité (défaut conseillé : `true`) |
+| `strategie_tests` | Oui | Types de tests à effectuer, un par type ISTQB examiné (section 4) |
 
 ### Exigence
 
@@ -57,15 +59,17 @@ Le JSON est un sur-ensemble du format attendu par le MCP Squash (`publish_valida
 | `titre` | Oui | Objectif en une phrase, à l'infinitif : « Créer une section avec des données valides » |
 | `fonctionnalite` | Oui | Même valeur que l'exigence couverte |
 | `exigences` | Oui | Ids des exigences vérifiées (au moins une) |
-| `type` | Oui | `nominal`, `negatif`, `limite`, `securite`, `ergonomie` |
-| `technique` | Oui | Technique ISTQB : `cas-d-usage`, `partitions-equivalence`, `valeurs-limites`, `table-decision`, `transition-etats`, `devinette-erreurs`, `exploratoire` |
+| `type` | Oui | Nature du cas : `nominal`, `negatif`, `limite` |
+| `type_test` | Oui | Type de test ISTQB / ISO 25010 : `fonctionnel`, `performance`, `securite`, `utilisabilite`, `compatibilite`, `fiabilite`, `maintenabilite`, `portabilite` |
+| `technique` | Oui | Technique de conception ISTQB qui a produit le cas : `partitions-equivalence`, `valeurs-limites`, `table-decision`, `transition-etats`, `cas-d-usage`, `criteres-acceptation`, `test-combinatoire`, `arbre-classification`, `devinette-erreurs`, `exploratoire`, `checklist` (détail et références : `docs/TECHNIQUES-ISTQB.md`) |
+| `nature` | Oui | Code Squash déduit de `type_test` : `NAT_FUNCTIONAL_TESTING` (fonctionnel), `NAT_PERFORMANCE_TESTING` (performance), `NAT_SECURITY_TESTING` (sécurité), `NAT_USER_TESTING` (utilisabilité), `NAT_NON_FUNCTIONAL_TESTING` (autres) |
 | `prerequis` | Oui | État initial : rôle, droits, données (avec ids `JDD-xxx`) |
 | `description` | Non | Précision sur l'objectif |
 | `importance` | Non | `LOW`, `MEDIUM` (défaut), `HIGH`, `VERY_HIGH` |
 | `etapes` | Oui | Liste ordonnée de `{ "action", "resultat_attendu" }` ; un résultat observable par étape |
 | `jeux_de_donnees` | Non | Ids `JDD-xxx` de `jeux-de-donnees.md` (deviennent les jeux de données Squash) |
 | `questions` | Non | Ids `Q-xxx` qui conditionnent ce cas. Un cas lié à une question **bloquante** ouverte est signalé par le contrôle |
-| `nature`, `statut` | Non | Codes Squash (`NAT_FUNCTIONAL_TESTING`, `WORK_IN_PROGRESS`…) |
+| `statut` | Non | Code Squash (`WORK_IN_PROGRESS`…) |
 
 Règles de rédaction :
 - une action = un geste réalisable ; un résultat attendu = un fait observable (élément affiché, message, valeur, URL, ligne dans une liste) ;
@@ -111,11 +115,44 @@ Une section par jeu :
 | Mot de passe | variable `APP_PASSWORD` | jamais en clair |
 ```
 
-## 4. Contrôles automatiques (`outils/controle.py`)
+## 4. Stratégie de types de tests (`strategie_tests`)
+
+Une entrée par type de test, et les 10 types doivent être examinés : `fonctionnel`, `performance`, `securite`, `utilisabilite`, `compatibilite`, `fiabilite`, `maintenabilite`, `portabilite`, `confirmation`, `regression`. Règles complètes : `docs/TECHNIQUES-ISTQB.md` §3.
+
+```json
+{
+  "id": "TT-03",
+  "type_test": "performance",
+  "decision": "a-confirmer",
+  "niveau": "systeme",
+  "approche": "campagne-dediee",
+  "objectif": "Mesurer les temps de réponse des pages principales sous la charge attendue.",
+  "exigences": ["EX-016"],
+  "cas": [],
+  "questions": ["Q-004"],
+  "outil": "Gatling",
+  "priorite": "moyenne",
+  "justification": "CDC §6.1 « l'application doit être rapide » : exigence non mesurable."
+}
+```
+
+| Champ | Obligatoire | Description |
+|---|---|---|
+| `id` | Oui | `TT-01`, unique |
+| `type_test` | Oui | Un des 10 types ci-dessus |
+| `decision` | Oui | `retenu`, `a-confirmer`, `non-retenu` |
+| `justification` | Oui | Source dans le CDC, ou raison de l'exclusion |
+| `objectif`, `niveau`, `approche` | Si retenu | `niveau` : `composant`, `integration-composants`, `systeme`, `integration-systemes`, `acceptation` ; `approche` : `cas`, `campagne-dediee`, `checklist`, `exploratoire` |
+| `questions` | Si à confirmer | Ids `Q-xxx` qui conditionnent le type |
+| `exigences`, `cas`, `outil`, `priorite` | Non | Rattachement et outillage (`priorite` : `haute`, `moyenne`, `basse`) |
+
+## 5. Contrôles automatiques (`outils/controle.py`)
 
 Bloquant (erreur) :
 - structure ou champ obligatoire manquant, id en double, mauvais format d'id ;
-- valeur hors liste (`type`, `technique`, `criticite`, `importance`) ;
+- valeur hors liste (`type`, `type_test`, `technique`, `criticite`, `importance`) ; technique hors référentiel ISTQB ;
+- `nature` incohérente avec `type_test` ;
+- stratégie absente ou incomplète (type ISTQB non examiné, justification manquante, type à confirmer sans question) ;
 - cas sans étape, étape sans action ou sans résultat attendu ;
 - cas qui cite une exigence, un jeu de données ou une question absents ;
 - `cas-de-tests.md` désynchronisé du JSON (modifié à la main ou non régénéré).
@@ -124,6 +161,7 @@ Avertissement :
 - exigence couverte par aucun cas ; exigence sans cas négatif alors qu'elle porte une règle de validation ;
 - cas lié à une question bloquante encore ouverte ;
 - jeu de données non utilisé ; question sans exigence ni cas impacté ;
-- formulation vague dans un résultat attendu (« correctement », « fonctionne », « avec succès »…).
+- formulation vague dans un résultat attendu (« correctement », « fonctionne », « avec succès »…) ;
+- cas `limite` conçu sans analyse des valeurs limites ; exigence de performance, sécurité ou ergonomie absente de la stratégie ; cas non fonctionnel non rattaché à la stratégie.
 
-Le contrôle écrit aussi `matrice-tracabilite.md` (exigence → cas) dans le dossier contrôlé.
+Le contrôle écrit aussi `matrice-tracabilite.md` (exigence → cas, types de test et techniques) dans le dossier contrôlé.
