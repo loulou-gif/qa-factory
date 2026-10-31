@@ -1,0 +1,1993 @@
+{
+  "meta": {
+    "projet": "sauce-test",
+    "sources": [
+      "01-entrant/Cahier_des_charges_SauceDemo.pdf"
+    ],
+    "version": 1,
+    "genere_le": "2026-10-30"
+  },
+  "projet": {
+    "id": 28
+  },
+  "ranger_par_fonctionnalite": true,
+  "dossier_parent_cas_id": 917,
+  "strategie_tests": [
+    {
+      "id": "TT-01",
+      "type_test": "fonctionnel",
+      "decision": "retenu",
+      "niveau": "systeme",
+      "approche": "cas",
+      "objectif": "Vérifier les exigences fonctionnelles du CDC §5 et les règles de gestion §6 (authentification, catalogue, panier, commande, navigation). Compléter en temps B par une session exploratoire avec le profil à comportement dégradé.",
+      "exigences": [
+        "EX-001",
+        "EX-002",
+        "EX-003",
+        "EX-004",
+        "EX-007",
+        "EX-008",
+        "EX-009",
+        "EX-010",
+        "EX-011",
+        "EX-012",
+        "EX-013",
+        "EX-014",
+        "EX-015",
+        "EX-016",
+        "EX-017",
+        "EX-018",
+        "EX-019",
+        "EX-020",
+        "EX-021",
+        "EX-022",
+        "EX-023",
+        "EX-024",
+        "EX-025",
+        "EX-026",
+        "EX-028",
+        "EX-029"
+      ],
+      "cas": [
+        "CT0001",
+        "CT0002",
+        "CT0003",
+        "CT0004",
+        "CT0005",
+        "CT0006",
+        "CT0007",
+        "CT0010",
+        "CT0011",
+        "CT0012",
+        "CT0013",
+        "CT0014",
+        "CT0015",
+        "CT0016",
+        "CT0017",
+        "CT0018",
+        "CT0019",
+        "CT0020",
+        "CT0021",
+        "CT0022",
+        "CT0023",
+        "CT0024",
+        "CT0025",
+        "CT0026",
+        "CT0027",
+        "CT0028",
+        "CT0029",
+        "CT0030",
+        "CT0031",
+        "CT0032",
+        "CT0033",
+        "CT0035",
+        "CT0036"
+      ],
+      "questions": [
+        "Q-018"
+      ],
+      "outil": "Squash TM (exécution manuelle), Playwright (automatisation)",
+      "priorite": "haute",
+      "justification": "CDC §5 et §6 : exigences fonctionnelles explicites ; CDC §4 et §10 : profil problem_user prévu pour explorer les anomalies."
+    },
+    {
+      "id": "TT-02",
+      "type_test": "securite",
+      "decision": "retenu",
+      "niveau": "systeme",
+      "approche": "cas",
+      "objectif": "Vérifier le contrôle d'accès : refus du profil verrouillé, accès interdit sans session, session non réutilisable après déconnexion.",
+      "exigences": [
+        "EX-005",
+        "EX-006",
+        "EX-027"
+      ],
+      "cas": [
+        "CT0008",
+        "CT0009",
+        "CT0034"
+      ],
+      "outil": "Playwright",
+      "priorite": "haute",
+      "justification": "CDC §6 RG-01, RG-02 et §7 Sécurité de session. Aucun test intrusif (injection, force brute, scan) : non demandé par le CDC et application publique d'un tiers, sans autorisation écrite ni environnement dédié."
+    },
+    {
+      "id": "TT-03",
+      "type_test": "performance",
+      "decision": "a-confirmer",
+      "niveau": "systeme",
+      "approche": "campagne-dediee",
+      "objectif": "Relever les temps de réponse du parcours d'achat, en particulier avec le profil à latence.",
+      "exigences": [
+        "EX-032"
+      ],
+      "cas": [
+        "CT0042"
+      ],
+      "questions": [
+        "Q-013"
+      ],
+      "outil": "Chronométrage manuel ou traces du navigateur ; pas d'outil de charge",
+      "priorite": "basse",
+      "justification": "CDC §7 Performance : « délai acceptable » non mesurable. Pas de test de charge sur une application publique d'un tiers."
+    },
+    {
+      "id": "TT-04",
+      "type_test": "utilisabilite",
+      "decision": "retenu",
+      "niveau": "systeme",
+      "approche": "checklist",
+      "objectif": "Contrôler l'accessibilité (champs identifiables, clavier, messages perceptibles) et la cohérence des libellés.",
+      "exigences": [
+        "EX-030",
+        "EX-034"
+      ],
+      "cas": [
+        "CT0039",
+        "CT0040",
+        "CT0041"
+      ],
+      "questions": [
+        "Q-015",
+        "Q-016"
+      ],
+      "outil": "Checklist RGAA ou WCAG (à confirmer), axe",
+      "priorite": "moyenne",
+      "justification": "CDC §7 Ergonomie et Accessibilité : exigences présentes ; référentiel et niveau de conformité à confirmer."
+    },
+    {
+      "id": "TT-05",
+      "type_test": "compatibilite",
+      "decision": "a-confirmer",
+      "niveau": "systeme",
+      "approche": "cas",
+      "objectif": "Exécuter le parcours d'achat sur les navigateurs et tailles d'écran retenus.",
+      "exigences": [
+        "EX-031"
+      ],
+      "cas": [
+        "CT0043"
+      ],
+      "questions": [
+        "Q-014"
+      ],
+      "outil": "Playwright (projets multi-navigateurs)",
+      "priorite": "moyenne",
+      "justification": "CDC §7 Compatibilité : navigateurs et tailles d'écran « retenus pour la campagne » non listés."
+    },
+    {
+      "id": "TT-06",
+      "type_test": "fiabilite",
+      "decision": "retenu",
+      "niveau": "systeme",
+      "approche": "cas",
+      "objectif": "Vérifier l'absence de perte ou de duplication d'articles lors d'actions répétées et de changements d'écran.",
+      "exigences": [
+        "EX-033"
+      ],
+      "cas": [
+        "CT0037",
+        "CT0038"
+      ],
+      "outil": "Squash TM, Playwright",
+      "priorite": "moyenne",
+      "justification": "CDC §7 Fiabilité : exigence vérifiable par des actions répétées sur le panier."
+    },
+    {
+      "id": "TT-07",
+      "type_test": "maintenabilite",
+      "decision": "a-confirmer",
+      "niveau": "systeme",
+      "approche": "checklist",
+      "objectif": "Vérifier que les éléments de l'interface sont identifiables de manière stable pour l'automatisation.",
+      "exigences": [
+        "EX-035"
+      ],
+      "cas": [
+        "CT0044"
+      ],
+      "questions": [
+        "Q-017"
+      ],
+      "outil": "Outils de développement du navigateur, pendant l'exploration",
+      "priorite": "basse",
+      "justification": "CDC §7 Maintenabilité des tests : critère de stabilité non défini."
+    },
+    {
+      "id": "TT-08",
+      "type_test": "portabilite",
+      "decision": "non-retenu",
+      "justification": "Application web publique sans installation ni déploiement à la charge de l'équipe de test ; aucune exigence de portabilité dans le CDC (la compatibilité navigateurs est traitée en TT-05)."
+    },
+    {
+      "id": "TT-09",
+      "type_test": "confirmation",
+      "decision": "retenu",
+      "niveau": "systeme",
+      "approche": "cas",
+      "objectif": "Rejouer les cas en échec après correction de chaque anomalie signalée.",
+      "outil": "Squash TM",
+      "priorite": "haute",
+      "justification": "Pratique standard de recette ; CDC §12 prévoit des rapports d'anomalies."
+    },
+    {
+      "id": "TT-10",
+      "type_test": "regression",
+      "decision": "retenu",
+      "niveau": "systeme",
+      "approche": "cas",
+      "objectif": "Rejouer les parcours critiques A à D à chaque évolution de l'application publique.",
+      "cas": [
+        "CT0002",
+        "CT0008",
+        "CT0017",
+        "CT0019",
+        "CT0020",
+        "CT0024",
+        "CT0030",
+        "CT0033",
+        "CT0035"
+      ],
+      "outil": "Playwright (suite automatisée)",
+      "priorite": "haute",
+      "justification": "CDC §2 et §12 : suite de fumée et de régression sur les parcours critiques ; CDC §11 : l'application publique peut évoluer."
+    }
+  ],
+  "exigences": [
+    {
+      "id": "EX-001",
+      "titre": "Afficher le formulaire de connexion",
+      "fonctionnalite": "Authentification",
+      "description": "Le système affiche un formulaire de connexion comportant un champ identifiant, un champ mot de passe et une action de connexion.",
+      "source": "CDC §5.1 EF-AUTH-01",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "EX-002",
+      "titre": "Ouvrir une session avec des identifiants valides",
+      "fonctionnalite": "Authentification",
+      "description": "Lorsque les identifiants sont valides pour un profil autorisé, le système ouvre une session et redirige l'utilisateur vers le catalogue.",
+      "source": "CDC §5.1 EF-AUTH-02, §9 Connexion",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-003",
+      "titre": "Contrôler les champs obligatoires de connexion",
+      "fonctionnalite": "Authentification",
+      "description": "Lorsque les champs obligatoires sont vides, le système affiche un message de validation et empêche la connexion.",
+      "source": "CDC §5.1 EF-AUTH-03, §9 Connexion",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "EX-004",
+      "titre": "Refuser l'accès en cas d'identifiants incorrects",
+      "fonctionnalite": "Authentification",
+      "description": "Lorsque les identifiants sont incorrects, le système refuse l'accès et affiche un message d'erreur compréhensible ; l'utilisateur reste sur l'écran de connexion.",
+      "source": "CDC §5.1 EF-AUTH-04, §8 Parcours C",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "EX-005",
+      "titre": "Refuser la connexion d'un profil verrouillé",
+      "fonctionnalite": "Authentification",
+      "description": "Un profil verrouillé ne peut pas ouvrir une session, même si le mot de passe saisi est correct ; la connexion est refusée avec un message explicite.",
+      "source": "CDC §4, §5.1 EF-AUTH-04, §6 RG-02",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_SECURITY",
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "EX-006",
+      "titre": "Exiger l'authentification avant d'accéder au catalogue",
+      "fonctionnalite": "Authentification",
+      "description": "Un utilisateur doit être authentifié avant d'accéder au catalogue et aux fonctionnalités réservées à une session.",
+      "source": "CDC §4 Visiteur non connecté, §6 RG-01",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_SECURITY",
+      "questions": [
+        "Q-011"
+      ]
+    },
+    {
+      "id": "EX-007",
+      "titre": "Afficher la liste des produits",
+      "fonctionnalite": "Catalogue",
+      "description": "Après connexion, le système affiche une liste de produits avec au minimum leur nom, image, description et prix.",
+      "source": "CDC §5.2 EF-CAT-01, §9 Catalogue",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-008",
+      "titre": "Consulter le détail d'un produit",
+      "fonctionnalite": "Catalogue",
+      "description": "L'utilisateur peut consulter la fiche ou le détail d'un produit.",
+      "source": "CDC §3 Détail produit, §5.2 EF-CAT-02",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-009",
+      "titre": "Trier les produits",
+      "fonctionnalite": "Catalogue",
+      "description": "L'utilisateur peut trier les produits par nom croissant, nom décroissant, prix croissant et prix décroissant ; chaque option de tri produit l'ordre attendu.",
+      "source": "CDC §5.2 EF-CAT-03, §9 Catalogue",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-006"
+      ]
+    },
+    {
+      "id": "EX-010",
+      "titre": "Trier sans modifier les données des produits",
+      "fonctionnalite": "Catalogue",
+      "description": "Le tri doit réordonner les produits affichés sans modifier les données propres aux produits.",
+      "source": "CDC §5.2 EF-CAT-04",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-011",
+      "titre": "Ajouter un produit au panier",
+      "fonctionnalite": "Panier",
+      "description": "L'utilisateur peut ajouter un produit au panier depuis le catalogue ou depuis sa fiche détaillée.",
+      "source": "CDC §5.3 EF-CART-01",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-012",
+      "titre": "Refléter l'ajout dans l'interface et l'indicateur du panier",
+      "fonctionnalite": "Panier",
+      "description": "Après ajout, l'interface doit refléter l'état du produit et mettre à jour l'indicateur du panier. L'indicateur représente le nombre d'articles ajoutés selon le fonctionnement de l'application.",
+      "source": "CDC §5.3 EF-CART-02, §6 RG-03",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-003",
+        "Q-004"
+      ]
+    },
+    {
+      "id": "EX-013",
+      "titre": "Consulter le contenu du panier",
+      "fonctionnalite": "Panier",
+      "description": "L'utilisateur peut ouvrir le panier et consulter les produits sélectionnés, leurs prix et les quantités affichées.",
+      "source": "CDC §5.3 EF-CART-03",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-004"
+      ]
+    },
+    {
+      "id": "EX-014",
+      "titre": "Conserver dans le panier les informations du catalogue",
+      "fonctionnalite": "Panier",
+      "description": "Un produit ajouté doit apparaître dans le panier avec les mêmes informations de référence que dans le catalogue.",
+      "source": "CDC §6 RG-04, §9 Panier",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-015",
+      "titre": "Retirer un produit du panier",
+      "fonctionnalite": "Panier",
+      "description": "L'utilisateur peut retirer un produit du panier ; le contenu du panier et son indicateur doivent être actualisés. Le retrait est aussi possible depuis le détail produit.",
+      "source": "CDC §3 Détail produit, §5.3 EF-CART-04, §6 RG-05",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-016",
+      "titre": "Revenir au catalogue sans perdre le panier",
+      "fonctionnalite": "Panier",
+      "description": "L'utilisateur peut revenir au catalogue sans perdre l'état courant du panier pendant le parcours.",
+      "source": "CDC §5.3 EF-CART-05, §8 Parcours B",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-017",
+      "titre": "Démarrer la commande depuis le panier",
+      "fonctionnalite": "Commande",
+      "description": "Depuis le panier, l'utilisateur peut démarrer le processus de commande.",
+      "source": "CDC §5.4 EF-CMD-01",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-018",
+      "titre": "Demander prénom, nom et code postal",
+      "fonctionnalite": "Commande",
+      "description": "Le système demande les informations nécessaires à la commande : prénom, nom et code postal.",
+      "source": "CDC §5.4 EF-CMD-02",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-007"
+      ]
+    },
+    {
+      "id": "EX-019",
+      "titre": "Contrôler les informations obligatoires de commande",
+      "fonctionnalite": "Commande",
+      "description": "Les champs obligatoires doivent être contrôlés et renseignés avant le passage à l'étape suivante.",
+      "source": "CDC §5.4 EF-CMD-03, §6 RG-06, §9 Commande",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-001",
+        "Q-007"
+      ]
+    },
+    {
+      "id": "EX-020",
+      "titre": "Afficher le récapitulatif de commande",
+      "fonctionnalite": "Commande",
+      "description": "Le système affiche un récapitulatif des articles, le sous-total, les taxes et le total.",
+      "source": "CDC §5.4 EF-CMD-04, §9 Commande",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-021",
+      "titre": "Afficher un total cohérent avec le sous-total et les taxes",
+      "fonctionnalite": "Commande",
+      "description": "Le total affiché doit être cohérent avec le sous-total et les taxes calculées par l'application. Les règles de calcul exactes (taux, arrondis, quantités) sont à vérifier sur l'environnement cible.",
+      "source": "CDC §6 RG-07 et note, §11 Risques",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-005"
+      ]
+    },
+    {
+      "id": "EX-022",
+      "titre": "Confirmer la commande simulée",
+      "fonctionnalite": "Commande",
+      "description": "L'utilisateur peut confirmer la commande simulée. Aucun paiement réel n'est attendu.",
+      "source": "CDC §1, §5.4 EF-CMD-05",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-023",
+      "titre": "Afficher l'écran de succès après confirmation",
+      "fonctionnalite": "Commande",
+      "description": "Après confirmation, le système affiche un écran de succès et un message confirmant la fin du parcours.",
+      "source": "CDC §5.4 EF-CMD-06, §9 Commande",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "EX-024",
+      "titre": "N'autoriser la confirmation qu'après les étapes précédentes",
+      "fonctionnalite": "Commande",
+      "description": "La confirmation de commande n'est possible qu'après validation des étapes précédentes.",
+      "source": "CDC §6 RG-08",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-008"
+      ]
+    },
+    {
+      "id": "EX-025",
+      "titre": "Proposer la déconnexion et la réinitialisation dans le menu",
+      "fonctionnalite": "Navigation et session",
+      "description": "Le menu permet d'accéder aux options de navigation proposées par l'application, notamment la déconnexion et la réinitialisation de l'état.",
+      "source": "CDC §3 Navigation et session, §5.5 EF-NAV-01",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-009"
+      ]
+    },
+    {
+      "id": "EX-026",
+      "titre": "Se déconnecter depuis le menu",
+      "fonctionnalite": "Navigation et session",
+      "description": "L'utilisateur connecté peut se déconnecter depuis le menu de navigation ; la déconnexion termine la session et ramène l'utilisateur à l'écran de connexion.",
+      "source": "CDC §5.1 EF-AUTH-05, §5.5 EF-NAV-02, §9 Déconnexion",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL"
+    },
+    {
+      "id": "EX-027",
+      "titre": "Empêcher la poursuite d'une session déconnectée",
+      "fonctionnalite": "Navigation et session",
+      "description": "La déconnexion doit empêcher la poursuite normale d'une session déconnectée via les parcours applicatifs.",
+      "source": "CDC §7 Sécurité de session",
+      "criticite": "CRITICAL",
+      "categorie": "CAT_SECURITY",
+      "questions": [
+        "Q-012"
+      ]
+    },
+    {
+      "id": "EX-028",
+      "titre": "Réinitialiser l'état de démonstration",
+      "fonctionnalite": "Navigation et session",
+      "description": "La réinitialisation remet à zéro les éléments de démonstration concernés, notamment l'état du panier et les boutons d'ajout/retrait, et restaure les données d'interface prévues par l'application.",
+      "source": "CDC §5.5 EF-NAV-03, §6 RG-09, §8 Parcours D, §9 Réinitialisation",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-010"
+      ]
+    },
+    {
+      "id": "EX-029",
+      "titre": "Naviguer sans incohérence d'état",
+      "fonctionnalite": "Navigation et session",
+      "description": "Les commandes de navigation doivent conduire vers l'écran correspondant sans incohérence d'état.",
+      "source": "CDC §5.5 EF-NAV-04",
+      "criticite": "MAJOR",
+      "categorie": "CAT_FUNCTIONAL",
+      "questions": [
+        "Q-009"
+      ]
+    },
+    {
+      "id": "EX-030",
+      "titre": "Proposer des libellés compréhensibles et cohérents",
+      "fonctionnalite": "Ergonomie et accessibilité",
+      "description": "Les libellés, boutons, messages et éléments de navigation doivent être compréhensibles et cohérents.",
+      "source": "CDC §7 Ergonomie",
+      "criticite": "MINOR",
+      "categorie": "CAT_ERGONOMIC",
+      "questions": [
+        "Q-016"
+      ]
+    },
+    {
+      "id": "EX-031",
+      "titre": "Rester utilisable sur les navigateurs et tailles d'écran retenus",
+      "fonctionnalite": "Compatibilité",
+      "description": "L'application doit rester utilisable sur les navigateurs et tailles d'écran retenus pour la campagne de test.",
+      "source": "CDC §7 Compatibilité",
+      "criticite": "MAJOR",
+      "categorie": "CAT_NON_FUNCTIONAL",
+      "questions": [
+        "Q-014"
+      ]
+    },
+    {
+      "id": "EX-032",
+      "titre": "Répondre dans un délai acceptable",
+      "fonctionnalite": "Performance",
+      "description": "Les écrans et actions doivent répondre dans un délai acceptable ; les profils à latence doivent être évalués séparément.",
+      "source": "CDC §4 Utilisateur à latence, §7 Performance",
+      "criticite": "MAJOR",
+      "categorie": "CAT_PERFORMANCE",
+      "questions": [
+        "Q-013"
+      ]
+    },
+    {
+      "id": "EX-033",
+      "titre": "Ne pas perdre ni dupliquer d'articles",
+      "fonctionnalite": "Fiabilité",
+      "description": "Les actions répétées ou les changements d'écran ne doivent pas provoquer de perte ou de duplication inattendue des articles.",
+      "source": "CDC §7 Fiabilité",
+      "criticite": "MAJOR",
+      "categorie": "CAT_NON_FUNCTIONAL",
+      "questions": [
+        "Q-004"
+      ]
+    },
+    {
+      "id": "EX-034",
+      "titre": "Rendre les champs, contrôles et messages accessibles",
+      "fonctionnalite": "Ergonomie et accessibilité",
+      "description": "Les champs doivent être identifiables, les contrôles utilisables au clavier et les messages d'erreur perceptibles.",
+      "source": "CDC §7 Accessibilité",
+      "criticite": "MAJOR",
+      "categorie": "CAT_ERGONOMIC",
+      "questions": [
+        "Q-015"
+      ]
+    },
+    {
+      "id": "EX-035",
+      "titre": "Identifier de manière stable les éléments de l'interface",
+      "fonctionnalite": "Maintenabilité des tests",
+      "description": "Les éléments de l'interface doivent pouvoir être identifiés de manière stable pour les tests automatisés.",
+      "source": "CDC §7 Maintenabilité des tests",
+      "criticite": "MINOR",
+      "categorie": "CAT_NON_FUNCTIONAL",
+      "questions": [
+        "Q-017"
+      ]
+    }
+  ],
+  "cas_de_tests": [
+    {
+      "id": "CT0001",
+      "titre": "Afficher le formulaire de connexion",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-001"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "criteres-acceptation",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être déconnecté. Avoir le lien de l'application.",
+      "etapes": [
+        {
+          "action": "Ouvrir le lien de l'application",
+          "resultat_attendu": "L'écran de connexion s'affiche avec un champ identifiant, un champ mot de passe et une action de connexion."
+        }
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0002",
+      "titre": "Se connecter avec le profil standard",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-002"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "VERY_HIGH",
+      "prerequis": "Être déconnecté, sur l'écran de connexion. Disposer du profil standard JDD-001.",
+      "description": "Parcours A, étapes 1 à 3 ; colonne R7 de la table de décision décrite dans CT0003.",
+      "etapes": [
+        {
+          "action": "Renseigner l'identifiant et le mot de passe du profil JDD-001",
+          "resultat_attendu": "Les deux champs sont remplis."
+        },
+        {
+          "action": "Déclencher l'action de connexion",
+          "resultat_attendu": "La session est ouverte et le catalogue des produits s'affiche."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ]
+    },
+    {
+      "id": "CT0003",
+      "titre": "Bloquer la connexion avec les deux champs vides",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-003"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "table-decision",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être déconnecté, sur l'écran de connexion.",
+      "description": "Table de décision de la connexion (CDC §5.1 EF-AUTH-02 à 04, §6 RG-02). Conditions : C1 identifiant renseigné, C2 mot de passe renseigné, C3 identifiant connu, C4 mot de passe correct, C5 profil verrouillé. Actions : A1 message de validation, A2 message d'erreur, A3 ouverture de session et catalogue. R1 : C1=N, C2=N -> A1 (CT0003). R2 : C1=N, C2=O -> A1 (CT0004). R3 : C1=O, C2=N -> A1 (CT0005). R4 : C1=O, C2=O, C3=N -> A2 (CT0006). R5 : C3=O, C4=N, C5=N -> A2 (CT0007). R6 : C3=O, C4=O, C5=O -> A2 (CT0008). R7 : C3=O, C4=O, C5=N -> A3 (CT0002). Colonne écartée : profil verrouillé avec mot de passe incorrect, refusée par R5 comme tout mot de passe incorrect.",
+      "etapes": [
+        {
+          "action": "Laisser les champs identifiant et mot de passe vides",
+          "resultat_attendu": "Les deux champs sont vides."
+        },
+        {
+          "action": "Déclencher l'action de connexion",
+          "resultat_attendu": "Un message de validation s'affiche ; la connexion est empêchée et l'écran de connexion reste affiché."
+        }
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0004",
+      "titre": "Bloquer la connexion sans identifiant",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-003"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "table-decision",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être déconnecté, sur l'écran de connexion. Disposer du mot de passe JDD-001.",
+      "description": "Colonne R2 de la table de décision (CT0003).",
+      "etapes": [
+        {
+          "action": "Laisser le champ identifiant vide et renseigner le mot de passe JDD-001",
+          "resultat_attendu": "Seul le champ mot de passe est rempli."
+        },
+        {
+          "action": "Déclencher l'action de connexion",
+          "resultat_attendu": "Un message de validation s'affiche ; la connexion est empêchée et l'écran de connexion reste affiché."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0005",
+      "titre": "Bloquer la connexion sans mot de passe",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-003"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "table-decision",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être déconnecté, sur l'écran de connexion. Disposer de l'identifiant JDD-001.",
+      "description": "Colonne R3 de la table de décision (CT0003).",
+      "etapes": [
+        {
+          "action": "Renseigner l'identifiant JDD-001 et laisser le champ mot de passe vide",
+          "resultat_attendu": "Seul le champ identifiant est rempli."
+        },
+        {
+          "action": "Déclencher l'action de connexion",
+          "resultat_attendu": "Un message de validation s'affiche ; la connexion est empêchée et l'écran de connexion reste affiché."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0006",
+      "titre": "Refuser la connexion avec un identifiant inconnu",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-004"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "table-decision",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être déconnecté, sur l'écran de connexion.",
+      "description": "Colonne R4 de la table de décision (CT0003). Parcours C.",
+      "etapes": [
+        {
+          "action": "Renseigner l'identifiant inconnu et le mot de passe du jeu JDD-003",
+          "resultat_attendu": "Les deux champs sont remplis."
+        },
+        {
+          "action": "Déclencher l'action de connexion",
+          "resultat_attendu": "L'accès est refusé : un message d'erreur s'affiche et l'écran de connexion reste affiché."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-003"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0007",
+      "titre": "Refuser la connexion avec un mot de passe incorrect",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-004"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "table-decision",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être déconnecté, sur l'écran de connexion.",
+      "description": "Colonne R5 de la table de décision (CT0003). Parcours C.",
+      "etapes": [
+        {
+          "action": "Renseigner l'identifiant du profil standard et le mot de passe incorrect du jeu JDD-003",
+          "resultat_attendu": "Les deux champs sont remplis."
+        },
+        {
+          "action": "Déclencher l'action de connexion",
+          "resultat_attendu": "L'accès est refusé : un message d'erreur s'affiche et l'écran de connexion reste affiché."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-003"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0008",
+      "titre": "Refuser la connexion d'un profil verrouillé",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-005"
+      ],
+      "type": "negatif",
+      "type_test": "securite",
+      "technique": "table-decision",
+      "nature": "NAT_SECURITY_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être déconnecté, sur l'écran de connexion. Disposer du profil verrouillé JDD-002.",
+      "description": "Colonne R6 de la table de décision (CT0003). Parcours C.",
+      "etapes": [
+        {
+          "action": "Renseigner l'identifiant et le mot de passe correct du profil JDD-002",
+          "resultat_attendu": "Les deux champs sont remplis."
+        },
+        {
+          "action": "Déclencher l'action de connexion",
+          "resultat_attendu": "La connexion est refusée : un message explicite s'affiche, aucune session n'est ouverte et l'écran de connexion reste affiché."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-002"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0009",
+      "titre": "Refuser l'accès au catalogue sans session",
+      "fonctionnalite": "Authentification",
+      "exigences": [
+        "EX-006"
+      ],
+      "type": "negatif",
+      "type_test": "securite",
+      "technique": "transition-etats",
+      "nature": "NAT_SECURITY_TESTING",
+      "importance": "HIGH",
+      "prerequis": "État de départ : non authentifié (aucune session ouverte dans le navigateur). Avoir relevé l'adresse de la page catalogue lors d'une session précédente.",
+      "description": "Session : états non authentifié et authentifié. Transitions valides : connexion (CT0002), déconnexion (CT0033). Transition invalide visée : non authentifié -> catalogue.",
+      "etapes": [
+        {
+          "action": "Ouvrir directement l'adresse de la page catalogue",
+          "resultat_attendu": "Le catalogue ne s'affiche pas."
+        },
+        {
+          "action": "Observer l'écran obtenu",
+          "resultat_attendu": "L'utilisateur est sur l'écran de connexion ou reçoit une indication que l'authentification est nécessaire (comportement exact à confirmer, Q-011)."
+        }
+      ],
+      "questions": [
+        "Q-011"
+      ]
+    },
+    {
+      "id": "CT0010",
+      "titre": "Afficher la liste des produits avec leurs informations",
+      "fonctionnalite": "Catalogue",
+      "exigences": [
+        "EX-007"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "criteres-acceptation",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Être sur le catalogue.",
+      "etapes": [
+        {
+          "action": "Parcourir la liste des produits du catalogue",
+          "resultat_attendu": "Chaque produit affiche au minimum un nom, une image, une description et un prix."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ]
+    },
+    {
+      "id": "CT0011",
+      "titre": "Consulter le détail d'un produit",
+      "fonctionnalite": "Catalogue",
+      "exigences": [
+        "EX-008"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Être sur le catalogue.",
+      "etapes": [
+        {
+          "action": "Relever le nom et le prix d'un produit du catalogue",
+          "resultat_attendu": "Le nom et le prix sont notés."
+        },
+        {
+          "action": "Ouvrir la fiche de ce produit depuis le catalogue",
+          "resultat_attendu": "La fiche du produit sélectionné s'affiche avec le nom et le prix relevés."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ]
+    },
+    {
+      "id": "CT0012",
+      "titre": "Trier les produits par nom croissant",
+      "fonctionnalite": "Catalogue",
+      "exigences": [
+        "EX-009"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "partitions-equivalence",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Être sur le catalogue.",
+      "description": "Option de tri : 4 partitions valides documentées (nom croissant, nom décroissant, prix croissant, prix décroissant), un cas par partition. Aucune partition invalide possible depuis l'interface.",
+      "etapes": [
+        {
+          "action": "Choisir l'option de tri par nom croissant",
+          "resultat_attendu": "Les produits sont affichés par ordre alphabétique croissant de leur nom."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-006"
+      ]
+    },
+    {
+      "id": "CT0013",
+      "titre": "Trier les produits par nom décroissant",
+      "fonctionnalite": "Catalogue",
+      "exigences": [
+        "EX-009"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "partitions-equivalence",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Être sur le catalogue.",
+      "etapes": [
+        {
+          "action": "Choisir l'option de tri par nom décroissant",
+          "resultat_attendu": "Les produits sont affichés par ordre alphabétique décroissant de leur nom."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-006"
+      ]
+    },
+    {
+      "id": "CT0014",
+      "titre": "Trier les produits par prix croissant",
+      "fonctionnalite": "Catalogue",
+      "exigences": [
+        "EX-009"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "partitions-equivalence",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Être sur le catalogue.",
+      "etapes": [
+        {
+          "action": "Choisir l'option de tri par prix croissant",
+          "resultat_attendu": "Les produits sont affichés du prix le plus bas au prix le plus élevé."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-006"
+      ]
+    },
+    {
+      "id": "CT0015",
+      "titre": "Trier les produits par prix décroissant",
+      "fonctionnalite": "Catalogue",
+      "exigences": [
+        "EX-009"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "partitions-equivalence",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Être sur le catalogue.",
+      "etapes": [
+        {
+          "action": "Choisir l'option de tri par prix décroissant",
+          "resultat_attendu": "Les produits sont affichés du prix le plus élevé au prix le plus bas."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-006"
+      ]
+    },
+    {
+      "id": "CT0016",
+      "titre": "Conserver les données des produits après un tri",
+      "fonctionnalite": "Catalogue",
+      "exigences": [
+        "EX-010"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "criteres-acceptation",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Être sur le catalogue.",
+      "etapes": [
+        {
+          "action": "Relever le nom, la description et le prix de deux produits",
+          "resultat_attendu": "Les données des deux produits sont notées."
+        },
+        {
+          "action": "Appliquer successivement deux options de tri différentes",
+          "resultat_attendu": "L'ordre des produits change."
+        },
+        {
+          "action": "Comparer les données des deux produits avec celles relevées",
+          "resultat_attendu": "Le nom, la description et le prix de chaque produit sont identiques aux valeurs relevées."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ]
+    },
+    {
+      "id": "CT0017",
+      "titre": "Ajouter un produit au panier depuis le catalogue",
+      "fonctionnalite": "Panier",
+      "exigences": [
+        "EX-011",
+        "EX-012"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "VERY_HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier est vide (réinitialiser l'état de démonstration si besoin).",
+      "description": "Parcours A, étape 5.",
+      "etapes": [
+        {
+          "action": "Ajouter un produit au panier depuis le catalogue",
+          "resultat_attendu": "L'état du produit change dans le catalogue pour indiquer qu'il est dans le panier (forme exacte à confirmer, Q-003)."
+        },
+        {
+          "action": "Observer l'indicateur du panier",
+          "resultat_attendu": "L'indicateur du panier affiche 1."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-003",
+        "Q-004"
+      ]
+    },
+    {
+      "id": "CT0018",
+      "titre": "Ajouter un produit au panier depuis sa fiche détaillée",
+      "fonctionnalite": "Panier",
+      "exigences": [
+        "EX-011",
+        "EX-012"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier est vide (réinitialiser l'état de démonstration si besoin). Être sur la fiche d'un produit.",
+      "description": "Scénario alternatif d'EF-CART-01.",
+      "etapes": [
+        {
+          "action": "Ajouter le produit au panier depuis sa fiche",
+          "resultat_attendu": "L'état du produit change sur la fiche pour indiquer qu'il est dans le panier (forme exacte à confirmer, Q-003)."
+        },
+        {
+          "action": "Observer l'indicateur du panier",
+          "resultat_attendu": "L'indicateur du panier affiche 1."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-003",
+        "Q-004"
+      ]
+    },
+    {
+      "id": "CT0019",
+      "titre": "Consulter le panier contenant plusieurs produits",
+      "fonctionnalite": "Panier",
+      "exigences": [
+        "EX-013",
+        "EX-014"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier est vide (réinitialiser l'état de démonstration si besoin).",
+      "description": "Parcours B, étapes 2 et 3.",
+      "etapes": [
+        {
+          "action": "Relever le nom et le prix de deux produits du catalogue, puis les ajouter au panier",
+          "resultat_attendu": "L'indicateur du panier affiche 2."
+        },
+        {
+          "action": "Ouvrir le panier",
+          "resultat_attendu": "Le panier liste les deux produits ajoutés, avec un prix et une quantité pour chacun."
+        },
+        {
+          "action": "Comparer le nom et le prix de chaque produit avec ceux relevés dans le catalogue",
+          "resultat_attendu": "Le nom et le prix de chaque produit sont identiques à ceux du catalogue."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-004"
+      ]
+    },
+    {
+      "id": "CT0020",
+      "titre": "Retirer un produit depuis le panier",
+      "fonctionnalite": "Panier",
+      "exigences": [
+        "EX-015"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient deux produits.",
+      "description": "Parcours B, étapes 4 et 5.",
+      "etapes": [
+        {
+          "action": "Ouvrir le panier",
+          "resultat_attendu": "Le panier liste les deux produits et l'indicateur affiche 2."
+        },
+        {
+          "action": "Retirer un des deux produits",
+          "resultat_attendu": "Le produit retiré n'apparaît plus dans le panier ; l'autre produit est toujours listé."
+        },
+        {
+          "action": "Observer l'indicateur du panier",
+          "resultat_attendu": "L'indicateur du panier affiche 1."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ]
+    },
+    {
+      "id": "CT0021",
+      "titre": "Retirer un produit depuis sa fiche détaillée",
+      "fonctionnalite": "Panier",
+      "exigences": [
+        "EX-015"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient un seul produit. Être sur la fiche de ce produit.",
+      "description": "Scénario alternatif : retrait depuis le détail produit (CDC §3).",
+      "etapes": [
+        {
+          "action": "Retirer le produit du panier depuis sa fiche",
+          "resultat_attendu": "L'état du produit sur la fiche indique qu'il n'est plus dans le panier."
+        },
+        {
+          "action": "Ouvrir le panier",
+          "resultat_attendu": "Le panier ne contient plus le produit et l'indicateur n'affiche plus de quantité (affichage exact à confirmer, Q-004)."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-003",
+        "Q-004"
+      ]
+    },
+    {
+      "id": "CT0022",
+      "titre": "Revenir au catalogue sans perdre le panier",
+      "fonctionnalite": "Panier",
+      "exigences": [
+        "EX-016"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient deux produits.",
+      "description": "Parcours B, étape 5.",
+      "etapes": [
+        {
+          "action": "Ouvrir le panier",
+          "resultat_attendu": "Le panier liste les deux produits."
+        },
+        {
+          "action": "Revenir au catalogue par la commande de navigation proposée",
+          "resultat_attendu": "Le catalogue s'affiche ; l'indicateur du panier affiche toujours 2."
+        },
+        {
+          "action": "Ouvrir de nouveau le panier",
+          "resultat_attendu": "Le panier liste toujours les deux mêmes produits."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ]
+    },
+    {
+      "id": "CT0023",
+      "titre": "Faire évoluer l'indicateur du panier de vide à deux articles puis à vide",
+      "fonctionnalite": "Panier",
+      "exigences": [
+        "EX-012",
+        "EX-015"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "transition-etats",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. État de départ : panier vide.",
+      "description": "États du panier : vide, 1 article, plusieurs articles (CDC RG-03, RG-05). Couverture de toutes les transitions valides par ajout et retrait.",
+      "etapes": [
+        {
+          "action": "Ajouter un premier produit depuis le catalogue",
+          "resultat_attendu": "Transition vide -> 1 article : l'indicateur affiche 1."
+        },
+        {
+          "action": "Ajouter un second produit",
+          "resultat_attendu": "Transition 1 -> 2 articles : l'indicateur affiche 2."
+        },
+        {
+          "action": "Retirer le premier produit",
+          "resultat_attendu": "Transition 2 -> 1 article : l'indicateur affiche 1."
+        },
+        {
+          "action": "Retirer le second produit",
+          "resultat_attendu": "Transition 1 article -> vide : l'indicateur n'affiche plus de quantité (affichage exact à confirmer, Q-004)."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-004"
+      ]
+    },
+    {
+      "id": "CT0024",
+      "titre": "Passer une commande complète avec le profil standard",
+      "fonctionnalite": "Commande",
+      "exigences": [
+        "EX-017",
+        "EX-018",
+        "EX-020",
+        "EX-022",
+        "EX-023"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "VERY_HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient deux produits. Disposer des informations client JDD-004.",
+      "description": "Parcours A, étapes 6 à 9.",
+      "etapes": [
+        {
+          "action": "Ouvrir le panier et démarrer la commande",
+          "resultat_attendu": "Le système demande le prénom, le nom et le code postal."
+        },
+        {
+          "action": "Renseigner les informations client JDD-004 et passer à l'étape suivante",
+          "resultat_attendu": "Le récapitulatif s'affiche avec les deux articles, le sous-total, les taxes et le total."
+        },
+        {
+          "action": "Confirmer la commande",
+          "resultat_attendu": "Un écran de succès s'affiche avec un message confirmant la fin du parcours."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001",
+        "JDD-004"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0025",
+      "titre": "Bloquer la commande sans prénom",
+      "fonctionnalite": "Commande",
+      "exigences": [
+        "EX-019"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "partitions-equivalence",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient un produit. Être sur l'étape des informations client.",
+      "description": "Chaque champ obligatoire : partition valide (renseigné), partition invalide (vide). Une seule partition invalide par cas.",
+      "etapes": [
+        {
+          "action": "Laisser le prénom vide, renseigner le nom et le code postal JDD-004",
+          "resultat_attendu": "Seul le prénom est vide."
+        },
+        {
+          "action": "Passer à l'étape suivante",
+          "resultat_attendu": "Le passage est empêché : un message de validation s'affiche et l'étape des informations client reste affichée."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001",
+        "JDD-004"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0026",
+      "titre": "Bloquer la commande sans nom",
+      "fonctionnalite": "Commande",
+      "exigences": [
+        "EX-019"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "partitions-equivalence",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient un produit. Être sur l'étape des informations client.",
+      "etapes": [
+        {
+          "action": "Laisser le nom vide, renseigner le prénom et le code postal JDD-004",
+          "resultat_attendu": "Seul le nom est vide."
+        },
+        {
+          "action": "Passer à l'étape suivante",
+          "resultat_attendu": "Le passage est empêché : un message de validation s'affiche et l'étape des informations client reste affichée."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001",
+        "JDD-004"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0027",
+      "titre": "Bloquer la commande sans code postal",
+      "fonctionnalite": "Commande",
+      "exigences": [
+        "EX-019"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "partitions-equivalence",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient un produit. Être sur l'étape des informations client.",
+      "etapes": [
+        {
+          "action": "Laisser le code postal vide, renseigner le prénom et le nom JDD-004",
+          "resultat_attendu": "Seul le code postal est vide."
+        },
+        {
+          "action": "Passer à l'étape suivante",
+          "resultat_attendu": "Le passage est empêché : un message de validation s'affiche et l'étape des informations client reste affichée."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001",
+        "JDD-004"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0028",
+      "titre": "Bloquer la commande avec toutes les informations vides",
+      "fonctionnalite": "Commande",
+      "exigences": [
+        "EX-019"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "devinette-erreurs",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient un produit. Être sur l'étape des informations client.",
+      "description": "Erreur visée : formulaire soumis entièrement vide (jeu « vide » demandé par CDC §10).",
+      "etapes": [
+        {
+          "action": "Laisser le prénom, le nom et le code postal vides",
+          "resultat_attendu": "Les trois champs sont vides."
+        },
+        {
+          "action": "Passer à l'étape suivante",
+          "resultat_attendu": "Le passage est empêché : un message de validation s'affiche et l'étape des informations client reste affichée."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-001"
+      ]
+    },
+    {
+      "id": "CT0029",
+      "titre": "Saisir des caractères inhabituels dans les informations client",
+      "fonctionnalite": "Commande",
+      "exigences": [
+        "EX-018",
+        "EX-019"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "devinette-erreurs",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient un produit. Être sur l'étape des informations client.",
+      "description": "Erreur visée : caractères spéciaux, accents, apostrophes, lettres dans le code postal (jeu « caractères inhabituels » demandé par CDC §10). Résultat attendu non documenté.",
+      "etapes": [
+        {
+          "action": "Renseigner le prénom, le nom et le code postal avec les valeurs du jeu JDD-005",
+          "resultat_attendu": "Les trois champs sont remplis."
+        },
+        {
+          "action": "Passer à l'étape suivante",
+          "resultat_attendu": "Le système accepte ou refuse la saisie selon la règle à confirmer (Q-007) ; en cas de refus, un message de validation s'affiche."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001",
+        "JDD-005"
+      ],
+      "questions": [
+        "Q-007"
+      ]
+    },
+    {
+      "id": "CT0030",
+      "titre": "Vérifier la cohérence des montants du récapitulatif",
+      "fonctionnalite": "Commande",
+      "exigences": [
+        "EX-020",
+        "EX-021"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "criteres-acceptation",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient deux produits dont les prix ont été relevés dans le catalogue. Disposer des informations client JDD-004.",
+      "description": "Parcours A, étape 8.",
+      "etapes": [
+        {
+          "action": "Démarrer la commande, renseigner les informations JDD-004 et passer à l'étape suivante",
+          "resultat_attendu": "Le récapitulatif affiche les deux articles avec les mêmes noms et prix que dans le catalogue."
+        },
+        {
+          "action": "Relever le sous-total, les taxes et le total affichés",
+          "resultat_attendu": "Les trois montants sont affichés."
+        },
+        {
+          "action": "Comparer le total à la somme du sous-total et des taxes",
+          "resultat_attendu": "Le total est égal au sous-total augmenté des taxes (interprétation de « cohérent » à confirmer, Q-005)."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001",
+        "JDD-004"
+      ],
+      "questions": [
+        "Q-005"
+      ]
+    },
+    {
+      "id": "CT0031",
+      "titre": "Empêcher la confirmation sans avoir validé les informations client",
+      "fonctionnalite": "Commande",
+      "exigences": [
+        "EX-024"
+      ],
+      "type": "negatif",
+      "type_test": "fonctionnel",
+      "technique": "transition-etats",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient un produit. Avoir relevé, lors d'une commande précédente, l'adresse de l'étape récapitulatif.",
+      "description": "États de la commande : panier, informations client, récapitulatif, confirmée. Transitions valides couvertes par CT0024. Transition invalide visée : informations client non validées -> récapitulatif -> confirmée.",
+      "etapes": [
+        {
+          "action": "Démarrer la commande sans renseigner les informations client",
+          "resultat_attendu": "L'étape des informations client s'affiche."
+        },
+        {
+          "action": "Ouvrir directement l'adresse de l'étape récapitulatif",
+          "resultat_attendu": "La confirmation de la commande n'est pas possible (comportement exact à confirmer, Q-008)."
+        },
+        {
+          "action": "Ouvrir le catalogue puis le panier",
+          "resultat_attendu": "Aucune commande n'a été confirmée : le panier contient toujours le produit."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-008"
+      ]
+    },
+    {
+      "id": "CT0032",
+      "titre": "Afficher les options du menu de navigation",
+      "fonctionnalite": "Navigation et session",
+      "exigences": [
+        "EX-025"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "criteres-acceptation",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001.",
+      "etapes": [
+        {
+          "action": "Ouvrir le menu de navigation",
+          "resultat_attendu": "Le menu affiche au moins une option de déconnexion et une option de réinitialisation de l'état (liste complète à confirmer, Q-009)."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-009"
+      ]
+    },
+    {
+      "id": "CT0033",
+      "titre": "Se déconnecter depuis le menu",
+      "fonctionnalite": "Navigation et session",
+      "exigences": [
+        "EX-026"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "transition-etats",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "État de départ : authentifié avec le profil standard JDD-001.",
+      "etapes": [
+        {
+          "action": "Ouvrir le menu de navigation",
+          "resultat_attendu": "Le menu affiche l'option de déconnexion."
+        },
+        {
+          "action": "Choisir la déconnexion",
+          "resultat_attendu": "Transition authentifié -> non authentifié : l'écran de connexion s'affiche."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ]
+    },
+    {
+      "id": "CT0034",
+      "titre": "Empêcher la reprise d'une session après déconnexion",
+      "fonctionnalite": "Navigation et session",
+      "exigences": [
+        "EX-027"
+      ],
+      "type": "negatif",
+      "type_test": "securite",
+      "technique": "transition-etats",
+      "nature": "NAT_SECURITY_TESTING",
+      "importance": "HIGH",
+      "prerequis": "État de départ : authentifié avec le profil standard JDD-001, sur le catalogue. Avoir relevé l'adresse de la page catalogue.",
+      "description": "Transition invalide visée : non authentifié (après déconnexion) -> catalogue.",
+      "etapes": [
+        {
+          "action": "Se déconnecter depuis le menu",
+          "resultat_attendu": "L'écran de connexion s'affiche."
+        },
+        {
+          "action": "Utiliser la commande Précédent du navigateur",
+          "resultat_attendu": "Le catalogue n'est pas utilisable comme dans une session ouverte (comportement exact à confirmer, Q-012)."
+        },
+        {
+          "action": "Ouvrir directement l'adresse de la page catalogue",
+          "resultat_attendu": "Le catalogue ne s'affiche pas ; l'écran de connexion ou une indication d'authentification nécessaire s'affiche."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-012"
+      ]
+    },
+    {
+      "id": "CT0035",
+      "titre": "Réinitialiser l'état de démonstration avec un panier rempli",
+      "fonctionnalite": "Navigation et session",
+      "exigences": [
+        "EX-028"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "HIGH",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient deux produits ajoutés depuis le catalogue.",
+      "description": "Parcours D.",
+      "etapes": [
+        {
+          "action": "Ouvrir le menu et déclencher la réinitialisation",
+          "resultat_attendu": "La réinitialisation est appliquée."
+        },
+        {
+          "action": "Observer l'indicateur du panier",
+          "resultat_attendu": "L'indicateur du panier est revenu à son état initial (panier vide)."
+        },
+        {
+          "action": "Observer les deux produits dans le catalogue",
+          "resultat_attendu": "Les boutons d'ajout/retrait des deux produits sont revenus à leur état initial (ajout possible)."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-010"
+      ]
+    },
+    {
+      "id": "CT0036",
+      "titre": "Naviguer entre fiche produit, catalogue et panier sans incohérence",
+      "fonctionnalite": "Navigation et session",
+      "exigences": [
+        "EX-029"
+      ],
+      "type": "nominal",
+      "type_test": "fonctionnel",
+      "technique": "cas-d-usage",
+      "nature": "NAT_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient un produit.",
+      "etapes": [
+        {
+          "action": "Ouvrir la fiche d'un autre produit puis revenir au catalogue",
+          "resultat_attendu": "Le catalogue s'affiche ; l'indicateur du panier affiche 1."
+        },
+        {
+          "action": "Ouvrir le panier puis revenir au catalogue",
+          "resultat_attendu": "Le catalogue s'affiche ; l'indicateur affiche 1 et le produit du panier est indiqué comme ajouté."
+        },
+        {
+          "action": "Démarrer la commande puis revenir en arrière par la commande proposée",
+          "resultat_attendu": "L'écran précédent s'affiche et le panier contient toujours le produit (commande de retour à confirmer, Q-009)."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-009"
+      ]
+    },
+    {
+      "id": "CT0037",
+      "titre": "Répéter l'ajout et le retrait d'un produit sans duplication",
+      "fonctionnalite": "Fiabilité",
+      "exigences": [
+        "EX-033"
+      ],
+      "type": "negatif",
+      "type_test": "fiabilite",
+      "technique": "devinette-erreurs",
+      "nature": "NAT_NON_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier est vide (réinitialiser l'état de démonstration si besoin).",
+      "description": "Erreur visée : actions répétées provoquant une duplication ou une perte d'article (CDC §7 Fiabilité).",
+      "etapes": [
+        {
+          "action": "Ajouter puis retirer le même produit trois fois de suite depuis le catalogue",
+          "resultat_attendu": "Après le dernier retrait, l'indicateur n'affiche plus de quantité."
+        },
+        {
+          "action": "Ajouter ce produit une dernière fois et ouvrir le panier",
+          "resultat_attendu": "Le panier contient le produit une seule fois ; l'indicateur affiche 1."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-004"
+      ]
+    },
+    {
+      "id": "CT0038",
+      "titre": "Changer d'écran plusieurs fois sans perte d'article",
+      "fonctionnalite": "Fiabilité",
+      "exigences": [
+        "EX-033"
+      ],
+      "type": "nominal",
+      "type_test": "fiabilite",
+      "technique": "criteres-acceptation",
+      "nature": "NAT_NON_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Le panier contient deux produits.",
+      "etapes": [
+        {
+          "action": "Enchaîner trois fois : catalogue, fiche d'un produit, panier",
+          "resultat_attendu": "À chaque écran, l'indicateur du panier affiche 2."
+        },
+        {
+          "action": "Ouvrir le panier",
+          "resultat_attendu": "Le panier contient les deux mêmes produits, chacun une seule fois."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ]
+    },
+    {
+      "id": "CT0039",
+      "titre": "Se connecter et ajouter un produit au clavier uniquement",
+      "fonctionnalite": "Ergonomie et accessibilité",
+      "exigences": [
+        "EX-034"
+      ],
+      "type": "nominal",
+      "type_test": "utilisabilite",
+      "technique": "checklist",
+      "nature": "NAT_USER_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être déconnecté, sur l'écran de connexion. Disposer du profil standard JDD-001. Ne pas utiliser la souris.",
+      "description": "Checklist accessibilité, point « contrôles utilisables au clavier » (CDC §7). Référentiel à confirmer (Q-015).",
+      "etapes": [
+        {
+          "action": "Atteindre les champs et l'action de connexion avec la touche Tabulation, saisir les identifiants JDD-001 et valider avec Entrée",
+          "resultat_attendu": "Le focus est visible sur chaque élément atteint ; la session s'ouvre et le catalogue s'affiche."
+        },
+        {
+          "action": "Atteindre l'action d'ajout d'un produit au clavier et l'activer",
+          "resultat_attendu": "Le produit est ajouté : l'indicateur du panier affiche 1."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-015"
+      ]
+    },
+    {
+      "id": "CT0040",
+      "titre": "Identifier les champs et percevoir les messages d'erreur",
+      "fonctionnalite": "Ergonomie et accessibilité",
+      "exigences": [
+        "EX-034"
+      ],
+      "type": "nominal",
+      "type_test": "utilisabilite",
+      "technique": "checklist",
+      "nature": "NAT_USER_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être déconnecté, sur l'écran de connexion.",
+      "description": "Checklist accessibilité, points « champs identifiables » et « messages d'erreur perceptibles » (CDC §7).",
+      "etapes": [
+        {
+          "action": "Observer les champs de l'écran de connexion",
+          "resultat_attendu": "Chaque champ porte une étiquette ou une indication visible de la donnée attendue."
+        },
+        {
+          "action": "Déclencher l'action de connexion avec les champs vides",
+          "resultat_attendu": "Le message d'erreur s'affiche sous forme de texte lisible, à proximité du formulaire."
+        }
+      ],
+      "questions": [
+        "Q-015"
+      ]
+    },
+    {
+      "id": "CT0041",
+      "titre": "Contrôler la cohérence des libellés entre les écrans",
+      "fonctionnalite": "Ergonomie et accessibilité",
+      "exigences": [
+        "EX-030"
+      ],
+      "type": "nominal",
+      "type_test": "utilisabilite",
+      "technique": "checklist",
+      "nature": "NAT_USER_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001.",
+      "description": "Checklist ergonomie, point « cohérence des libellés » (CDC §7). Critères de compréhensibilité à confirmer (Q-016).",
+      "etapes": [
+        {
+          "action": "Parcourir connexion, catalogue, fiche produit, panier, commande et menu en relevant les libellés des boutons et messages",
+          "resultat_attendu": "Les libellés sont relevés pour chaque écran."
+        },
+        {
+          "action": "Comparer les libellés d'une même action d'un écran à l'autre",
+          "resultat_attendu": "Une même action porte le même libellé sur tous les écrans."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-016"
+      ]
+    },
+    {
+      "id": "CT0042",
+      "titre": "Mesurer les temps de réponse du parcours d'achat avec le profil à latence",
+      "fonctionnalite": "Performance",
+      "exigences": [
+        "EX-032"
+      ],
+      "type": "nominal",
+      "type_test": "performance",
+      "technique": "cas-d-usage",
+      "nature": "NAT_PERFORMANCE_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être déconnecté. Disposer du profil à latence JDD-006 et des informations client JDD-004. Configuration réseau consignée (CDC §10).",
+      "description": "Évaluation séparée du profil à latence (CDC §4, §7). Pas de test de charge : non demandé par le CDC.",
+      "etapes": [
+        {
+          "action": "Se connecter avec le profil JDD-006 en relevant le temps d'affichage du catalogue",
+          "resultat_attendu": "Le catalogue s'affiche ; le temps est relevé."
+        },
+        {
+          "action": "Ajouter un produit, ouvrir le panier et passer la commande avec JDD-004 en relevant le temps de chaque écran",
+          "resultat_attendu": "L'écran de succès s'affiche ; chaque temps est relevé et comparé au seuil à confirmer (Q-013)."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-004",
+        "JDD-006"
+      ],
+      "questions": [
+        "Q-013"
+      ]
+    },
+    {
+      "id": "CT0043",
+      "titre": "Exécuter le parcours d'achat sur chaque navigateur et taille d'écran retenus",
+      "fonctionnalite": "Compatibilité",
+      "exigences": [
+        "EX-031"
+      ],
+      "type": "nominal",
+      "type_test": "compatibilite",
+      "technique": "cas-d-usage",
+      "nature": "NAT_NON_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Liste des navigateurs et tailles d'écran retenus disponible (Q-014).",
+      "etapes": [
+        {
+          "action": "Sur chaque configuration retenue, exécuter le parcours A (connexion, ajout, panier, commande, confirmation)",
+          "resultat_attendu": "Sur chaque configuration, l'écran de succès s'affiche et tous les éléments du parcours sont visibles et activables."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001",
+        "JDD-004"
+      ],
+      "questions": [
+        "Q-014"
+      ]
+    },
+    {
+      "id": "CT0044",
+      "titre": "Relever l'identification des éléments interactifs",
+      "fonctionnalite": "Maintenabilité des tests",
+      "exigences": [
+        "EX-035"
+      ],
+      "type": "nominal",
+      "type_test": "maintenabilite",
+      "technique": "checklist",
+      "nature": "NAT_NON_FUNCTIONAL_TESTING",
+      "importance": "MEDIUM",
+      "prerequis": "Être connecté avec le profil standard JDD-001. Accès aux outils de développement du navigateur.",
+      "description": "Checklist de maintenabilité des tests (CDC §7). Réalisée pendant l'exploration (temps B).",
+      "etapes": [
+        {
+          "action": "Pour chaque champ, bouton et lien des écrans du parcours A, relever l'attribut qui l'identifie",
+          "resultat_attendu": "Chaque élément interactif possède un identifiant qui ne dépend ni de sa position ni de son texte (critère de stabilité à confirmer, Q-017)."
+        }
+      ],
+      "jeux_de_donnees": [
+        "JDD-001"
+      ],
+      "questions": [
+        "Q-017"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "nom": "sauce-test",
+  "code": "sauce-test",
+  "client": "À renseigner",
+  "responsable": "À renseigner",
+  "langue": "fr",
+  "application": {
+    "type": "web",
+    "url": "https://www.saucedemo.com",
+    "environnement": "À confirmer",
+    "actions_autorisees": "lecture seule tant que l'environnement et les données de test ne sont pas confirmés",
+    "variables_identifiants": [
+      "APP_USERNAME",
+      "APP_PASSWORD"
+    ]
+  },
+  "squash": {
+    "projet_id": 28,
+    "projet_nom": "SauceDemo",
+    "ranger_par_fonctionnalite": true,
+    "dossier_parent_exigences_id": null,
+    "dossier_parent_cas_id": 917
+  },
+  "cahier": {
+    "titre": "CAHIER DE TESTS SAUCE-TEST",
+    "version": "V1.0",
+    "auteur": "À renseigner",
+    "contact": "À renseigner",
+    "description": "À renseigner",
+    "nominaux_uniquement": false
+  },
+  "automatisation": {
+    "depot": "",
+    "note": "chemin du dépôt Playwright du projet (temps B)"
+  }
+}
